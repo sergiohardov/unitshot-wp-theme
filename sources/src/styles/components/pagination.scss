@@ -1,0 +1,25 @@
+@use '@styles/base/mixins' as *;
+
+.us-pagination {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  @include media-md() {
+    gap: 6px;
+  }
+
+  &__prev {
+    transform: rotate(180deg);
+  }
+
+  &__prev, &__next {
+    width: 40px;
+    height: 46px;
+    mask-size: 46px;
+  }
+}

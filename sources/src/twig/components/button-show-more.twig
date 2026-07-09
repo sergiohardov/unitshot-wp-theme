@@ -1,0 +1,10 @@
+<button class="us-button-show-more {{ class }}"
+        x-data="{ state: {{ active|default('false') }} }"
+        x-modelable="state"
+        x-on:click="state = !state"
+        x-bind:class="{ 'us-button-show-more--active': state }"
+        {% if x_model %} x-model="{{ x_model }}" {% endif %}
+        {{ data|default('')|raw }}
+>
+    <span x-text="state ? '{{ pll__('Згорнути') }}' : '{{ pll__('Розгорнути') }}'"></span>
+</button>

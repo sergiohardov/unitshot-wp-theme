@@ -1,0 +1,52 @@
+<div class="us-modal us-modal--{{ modify|default('normal') }} {{ class }}"
+     id="{{ id }}"
+     role="dialog"
+     aria-modal="true"
+     x-cloak
+     x-bind:class="{ 'us-modal--active': $store.ModalStore.active === '{{ id }}' }"
+     x-on:keydown.escape.window="$store.ModalStore.close()"
+     x-data="{{ x_data|default('') }}"
+     {{ data|raw }}
+>
+    <div class="us-modal__overlay" x-on:click="$store.ModalStore.close()"></div>
+
+    <div class="us-modal__window">
+        <div class="us-modal__header">
+            {% block header %}
+                {% if title %}
+                    <h2 class="us-modal__title">{{ title }}</h2>
+                {% endif %}
+
+                <button class="us-modal__close" x-on:click="$store.ModalStore.close()" aria-label="Закрыть"></button>
+            {% endblock %}
+        </div>
+        <div class="us-modal__body">
+            {% block body %}
+                {% if text %}
+                    <div class="us-modal__text">{{ text }}</div>
+                {% endif %}
+            {% endblock %}
+        </div>
+        <div class="us-modal__footer">
+            {% block footer %}
+                {% if buttons.secondary.text %}
+                    {% include '@components/button-square.twig' with {
+                        'version': 'v4',
+                        'text': buttons.secondary.text,
+                        'id': buttons.secondary.id,
+                        'x_click': buttons.secondary.x_click|default(null)
+                    } %}
+                {% endif %}
+
+                {% if buttons.primary.text %}
+                    {% include '@components/button-square.twig' with {
+                        'version': 'v3',
+                        'text': buttons.primary.text,
+                        'id': buttons.primary.id,
+                        'x_click': buttons.primary.x_click|default(null)
+                    } %}
+                {% endif %}
+            {% endblock %}
+        </div>
+    </div>
+</div>

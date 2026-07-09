@@ -1,0 +1,114 @@
+@use '@styles/base/mixins' as *;
+
+.us-product-gallery {
+  position: sticky;
+  top: var(--unitshot-header-height);
+
+  // Запас по высоте под превью-слайдер, отступы и пагинацию.
+  // Используется, что бы на низких экранах ужать основное изображение
+  // и оставить нижний слайдер в зоне видимости.
+  --gallery-reserve: 200px;
+
+  &__main {
+    margin-bottom: 20px;
+    width: 100%;
+    aspect-ratio: 1;
+    position: relative;
+
+    // На десктопе галерея залипает у шапки. Ширина всегда на всю колонку,
+    // ограничиваем только высоту доступной высотой экрана: при достаточной
+    // высоте остаётся квадрат (max-height больше стороны), на низких экранах
+    // высота уменьшается (изображение кропается object-fit: contain) и
+    // превью-слайдер попадает в видимую область.
+    @include min-media-md() {
+      max-height: calc(100vh - var(--unitshot-header-height) - var(--gallery-reserve));
+    }
+
+    &__slide {
+      background-color: var(--unitshot-white);
+      overflow: hidden;
+      border-radius: 12px;
+
+      &__img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        cursor: zoom-in;
+      }
+    }
+
+    &__next, &__prev {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      width: 33px;
+      height: 127px;
+      z-index: 10;
+    }
+
+    &__next {
+      right: 15px;
+    }
+
+    &__prev {
+      left: 15px;
+      transform: rotate(180deg);
+    }
+
+    // Так как слайдер имеет loop=true то это единственный класс который дает возможность убрать стрелки если недостаточно слайдов для прокрутки
+    .swiper-button-lock {
+      display: none;
+    }
+  }
+
+  &__pagination {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+
+    &--lock {
+      display: none;
+    }
+  }
+
+  &__pagination-bullet {
+    cursor: pointer;
+    width: 4px;
+    height: 4px;
+    border-radius: 10px;
+    background-color: var(--unitshot-gray-darker);
+    transition: var(--unitshot-transition-speed);
+
+    &:hover {
+      background-color: var(--unitshot-gray-main);
+    }
+
+    &--active {
+      width: 27px;
+      background-color: var(--unitshot-gray-main);
+    }
+  }
+
+  &__thumbs {
+    margin-top: 20px;
+
+    &__wrapper {
+      height: auto !important;
+    }
+
+    &__slide {
+      cursor: pointer;
+      aspect-ratio: 1;
+      overflow: hidden;
+      border-radius: 6px;
+
+      &__img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+}

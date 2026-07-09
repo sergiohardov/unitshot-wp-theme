@@ -1,0 +1,30 @@
+<div class="us-category-showcase" id="{{ block_id }}">
+    <div class="us-container">
+        <div class="us-category-showcase__inner">
+            <a href="{{ link }}" class="us-category-showcase__link">
+                {% include '@components/page-title.twig' with {
+                    'class': 'us-category-showcase__title',
+                    'title': title
+                } %}
+            </a>
+
+            {% if categories %}
+                {% include '@components/slider-categories.twig' with {
+                    'categories': categories
+                } %}
+            {% endif %}
+
+            {% if brands %}
+                {% include '@components/slider-logo-images.twig' with {
+                    'logotypes': brands
+                } %}
+            {% endif %}
+
+            {% if products %}
+                {% include '@components/slider-product-cards.twig' with {
+                    'products': products
+                } %}
+            {% endif %}
+        </div>
+    </div>
+</div>

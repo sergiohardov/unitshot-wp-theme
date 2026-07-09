@@ -1,0 +1,214 @@
+{% extends '@layouts/base.twig' %}
+
+{% block content %}
+    <div class="us-page-product">
+        <div class="us-container">
+            <div class="us-page-product__inner">
+                {% include '@components/breadcrumbs.twig' with {
+                    "links": breadcrumbs,
+                    'class': 'us-page-product__breadcrumbs'
+                } %}
+
+                <div class="us-page-product__main">
+                    <div class="us-page-product__main__gallery">
+                        {% include '@components/product-gallery.twig' with {
+                            'slides': gallery
+                        } %}
+                    </div>
+                    <div class="us-page-product__main__info" x-data="ProductPage">
+                        <script type="application/json" class="us-variations-data">{{ variation_json|raw }}</script>
+
+                        {% if title %}
+                            <h1 class="us-page-product__main__title">{{ title }}</h1>
+                        {% endif %}
+
+                        {% if is_variable %}
+                            <div class="us-page-product__main__old-price" x-show="oldPriceText" x-text="oldPriceText" style="display:none"></div>
+                        {% elseif old_price %}
+                            <div class="us-page-product__main__old-price">{{ format_price(old_price) }}</div>
+                        {% endif %}
+
+                        {# variable: всегда рендерим спан - его наполняет Alpine (даже если серверная цена null/0). #}
+                        {% if price is not null or is_variable %}
+                            <div class="us-page-product__main__price">
+                                <span class="us-page-product__main__price__total"{% if is_variable %} x-text="priceText"{% endif %}>{% if price_from %}від {% endif %}{{ format_price(price) }}</span>
+                                <span class="us-page-product__main__price__feedback" x-data x-on:click="$store.ModalStore.open('us-modal-call')">{{ pll__('Знайшли нижчу ціну?') }}</span>
+                            </div>
+                        {% endif %}
+
+                        {# Артикул и наличие - уровень товара (единые для simple/variable). #}
+                        {% if sku or status.text %}
+                            <div class="us-page-product__main__tags">
+                                {% if sku %}
+                                    <span class="us-page-product__main__tags__sku">{{ pll__('Артикул') }}: {{ sku }}</span>
+                                {% endif %}
+
+                                {% if status.text %}
+                                    <span class="us-page-product__main__tags__status{% if status.modify %} us-page-product__main__tags__status--{{ status.modify }}{% endif %}">{{ status.text }}</span>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+
+                        {% if properties %}
+                            <div class="us-page-product__main__properties">
+                                {% for property in properties %}
+                                    <div class="us-page-product__main__properties__item">
+                                        <span class="us-page-product__main__properties__title">{{ property.name }}:</span>
+                                        <div class="us-page-product__main__properties__values">
+                                            {% for value in property.values %}
+                                                <button type="button" class="us-button-square"
+                                                        x-bind:class="{
+                                                            'us-button-square--v6': isSelected('{{ property.taxonomy }}', {{ value.id }}),
+                                                            'us-button-square--v7': !isSelected('{{ property.taxonomy }}', {{ value.id }}),
+                                                            'us-button-square--link-disabled': !isAvailable('{{ property.taxonomy }}', {{ value.id }})
+                                                        }"
+                                                        x-bind:disabled="!isAvailable('{{ property.taxonomy }}', {{ value.id }})"
+                                                        x-on:click="select('{{ property.taxonomy }}', {{ value.id }})">{{ value.name }}</button>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        {% if short_description %}
+                            <div class="us-page-product__main__description">{{ short_description|raw }}</div>
+                        {% endif %}
+
+                        {% if is_complete and set_items %}
+                            <div class="us-page-product__main__set-items">
+                                <p class="us-page-product__main__set-items__title">{{ pll__('До складу комплекту входять') }}:</p>
+                                <div class="us-page-product__main__set-items__list">
+                                    {% for item in set_items %}
+                                        <a class="us-page-product__main__set-items__item" href="{{ item.url|e('html_attr') }}">
+                                            <div class="us-page-product__main__set-items__image">
+                                                {% include '@components/image.twig' with { 'image': item.image } %}
+                                            </div>
+                                            <div class="us-page-product__main__set-items__body">
+                                                <p class="us-page-product__main__set-items__name">{{ item.title|e('html') }}</p>
+                                                <div class="us-page-product__main__set-items__price">
+                                                    {% if item.old_price %}
+                                                        <span class="us-page-product__main__set-items__price-old">{{ format_price(item.old_price) }}</span>
+                                                    {% endif %}
+                                                    <span class="us-page-product__main__set-items__price-current">{{ format_price(item.price) }}</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        <div class="us-page-product__main__buttons">
+                            {% include '@components/quantity.twig' with {
+                                'class': 'us-page-product__main__buttons__qty',
+                                'x_model': 'cartQty'
+                            } %}
+                            <button type="button" class="us-page-product__main__buttons__add-cart"
+                                    x-on:click="addToCart()"
+                                    x-bind:disabled="!canAddToCart"
+                                    x-bind:class="{ 'us-page-product__main__buttons__add-cart--disabled': !canAddToCart }">{{ pll__('Додати в кошик') }}</button>
+                        </div>
+
+                        {% include '@components/product-set.twig' with {
+                            'class': 'us-page-product__main__set',
+                            'current': { 'image': gallery.0, 'title': title, 'price': price, 'old_price': old_price },
+                            'sets': sets
+                        } %}
+
+                        {% if (is_simple or is_variable) and stats %}
+                            <div class="us-page-product__main__stats">
+                                <div class="us-page-product__main__stats__title">{{ pll__('Основні характеристики') }}:</div>
+                                <div class="us-page-product__main__stats__list">
+                                    {% for stat in stats %}
+                                        <div class="us-page-product__main__stats__item">
+                                            <span>{{ stat.name }}:</span>
+                                            <div class="us-page-product__main__stats__separator"></div>
+                                            <span>{{ stat.value }}</span>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% include '@blocks/feedback-info.twig' with {
+                            'class': 'us-page-product__main__feedback',
+                            'title': block_feedback.title,
+                            'description': block_feedback.description,
+                            'socials': block_feedback.socials,
+                            'numbers': block_feedback.numbers,
+                        } %}
+                    </div>
+                </div>
+
+                <div class="us-page-product__info">
+                    {% if (is_simple or is_variable) and info.stats %}
+                        <div class="us-page-product__info__item" x-data="{ expanded: false }">
+                            <p class="us-page-product__info__title">{{ pll__('Характеристики') }}</p>
+                            <div class="us-page-product__info__more us-page-product__info__more-btn">
+                                {% include '@components/button-show-more.twig' with {
+                                    'class': '',
+                                    'x_model': 'expanded'
+                                } %}
+                            </div>
+                            <div class="us-page-product__info__content us-page-product__info__content-description" x-bind:class="{ 'us-page-product__info__content-description--active': expanded }">
+                                <div class="us-page-product__info__content-description__inner">
+                                    <div class="us-page-product__info__content-description__brand">
+                                        {% for stat in info.stats %}
+                                            <div class="us-page-product__info__content-description__brand-item">
+                                                <span class="us-page-product__info__content-description__brand-name">{{ stat.name }}:</span>
+                                                <div class="us-page-product__info__content-description__brand-separator"></div>
+                                                <span class="us-page-product__info__content-description__brand-value">{{ stat.value }}</span>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if info.description %}
+                        <div class="us-page-product__info__item" x-data="{ expanded: false }">
+                            <p class="us-page-product__info__title">{{ pll__('Опис товару') }}</p>
+                            <div class="us-page-product__info__more us-page-product__info__more-btn">
+                                {% include '@components/button-show-more.twig' with {
+                                    'class': '',
+                                    'x_model': 'expanded',
+                                } %}
+                            </div>
+                            <div class="us-page-product__info__content us-page-product__info__content-description" x-bind:class="{ 'us-page-product__info__content-description--active': expanded }">
+                               <div class="us-page-product__info__content-description__inner">{{ info.description }}</div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if info.files %}
+                        <div class="us-page-product__info__item">
+                            <p class="us-page-product__info__title">{{ pll__('ФАЙЛИ') }}</p>
+                            <div class="us-page-product__info__more"></div>
+                            <div class="us-page-product__info__content us-page-product__info__content-files">
+                                <p class="us-page-product__info__content-files__title">{{ pll__('Додаткові матеріали від виробника') }}:</p>
+                                <div class="us-page-product__info__content-files__list">
+                                    {% for file in info.files %}
+                                        <a class="us-page-product__info__content-files__item" href="{{ file.url|e('html_attr') }}" download target="_blank" rel="noopener">
+                                            <div class="us-page-product__info__content-files__item-image">{{ svg_icon('file-pdf') }}</div>
+                                            <p class="us-page-product__info__content-files__item-name">{{ file.name|e('html') }}</p>
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+
+                {% if popular_products %}
+                    {% include '@blocks/popular-products.twig' with {
+                        'title': pll__('Схожі товари'),
+                        'products': popular_products
+                    } %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

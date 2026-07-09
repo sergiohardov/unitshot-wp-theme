@@ -1,0 +1,62 @@
+{% extends '@layouts/modal.twig' %}
+
+{% set id = 'us-modal-filter' %}
+{% set class = 'us-modal-filter' %}
+{% set modify = 'left' %}
+{% set title = pll__('Фільтр') %}
+{% set data = null %}
+{% set x_data = null %}
+{% set buttons = null %}
+
+{% block body %}
+<form class="us-modal-filter__form" method="get" action="{{ filter.action }}">
+    {% for hidden in filter.hidden %}
+        <input type="hidden" name="{{ hidden.name }}" value="{{ hidden.value }}">
+    {% endfor %}
+
+    <div class="us-modal-filter__filters">
+        {% for group in filters %}
+            <div class="us-modal-filter__item"
+                 x-data="{ expanded: false, count: 0 }"
+                 x-init="count = $el.querySelectorAll('input[type=checkbox]:checked').length"
+                 x-on:change="count = $el.querySelectorAll('input[type=checkbox]:checked').length"
+                 x-bind:class="{ 'us-modal-filter__item--active': expanded }">
+                <p class="us-modal-filter__item__title" x-on:click="expanded = !expanded">
+                    <span class="us-modal-filter__item__label">
+                        {{ group.title }}
+                        <span class="us-modal-filter__item__count" x-show="count > 0" x-cloak x-text="count"></span>
+                    </span>
+                </p>
+                <div class="us-modal-filter__item__content">
+                    {% if group.type == 'checkbox' %}
+                        {% for option in group.options %}
+                            {% include '@components/checkbox.twig' with {
+                                'class': 'us-modal-filter__item__checkbox',
+                                'id': 'us-filter-' ~ (group.name|replace({'[': '-', ']': ''})) ~ '-' ~ option.value,
+                                'name': group.name,
+                                'value': option.value,
+                                'label': option.label,
+                                'checked': option.checked
+                            } %}
+                        {% endfor %}
+                    {% elseif group.type == 'range' %}
+                        {% include '@components/range.twig' with {
+                            'min': group.min,
+                            'max': group.max,
+                            'current_min': group.current_min,
+                            'current_max': group.current_max,
+                            'name_min': group.name_min,
+                            'name_max': group.name_max
+                        } %}
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="us-modal-filter__buttons">
+        <button type="submit" class="us-button-square us-button-square--v1 us-modal-filter__buttons__btn">{{ pll__('Застосувати') }}</button>
+        <a href="{{ filter.clear_url }}" class="us-button-square us-button-square--v3 us-modal-filter__buttons__btn">{{ pll__('Очистити') }}</a>
+    </div>
+</form>
+{% endblock %}

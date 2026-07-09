@@ -1,0 +1,20 @@
+{% if text %}
+    {% if type == 'link' %}
+        <a href="{{ href }}" id="{{ id }}"
+           class="us-button-square {% if version %} us-button-square--{{ version }} {% endif %} {% if disabled %} us-button-square--link-disabled {% endif %} {{ class }}"
+            {% if x_click %} x-on:click="{{ x_click }}" {% endif %}
+            {{ data }}
+        >
+            {{ text }}
+        </a>
+    {% else %}
+        <button id="{{ id }}" class="us-button-square {% if version %} us-button-square--{{ version }} {% endif %} {{ class }}"
+                type="button"
+                {% if disabled %} disabled {% endif %}
+                {% if x_click %} x-on:click="{{ x_click }}" {% endif %}
+                {{ data }}
+        >
+            {{ text }}
+        </button>
+    {% endif %}
+{% endif %}

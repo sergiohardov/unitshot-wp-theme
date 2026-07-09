@@ -1,0 +1,73 @@
+{% extends '@layouts/base.twig' %}
+
+{% block content %}
+    <div class="us-page-checkout" x-data="CheckoutPage">
+        <div class="us-container">
+            <div class="us-page-checkout__inner">
+                {% include '@components/breadcrumbs.twig' with { "links": breadcrumbs, 'class': 'us-page-checkout__breadcrumbs' } %}
+                {% include '@components/page-title.twig' with { 'title': title, 'class': 'us-page-checkout__title' } %}
+
+                <form class="us-page-checkout__form" x-show="isSend === false">
+                    <div class="us-page-checkout__form__contact">
+                        <h2 class="us-page-checkout__form__title">Контактна інформація</h2>
+                        <div class="us-page-checkout__form__inputs">
+                            <input type="tel" name="phone" placeholder="Номер телефону" x-model="customer.phone"/>
+                            <input type="text" name="name" placeholder="Ім'я" x-model="customer.name"/>
+                            <input type="text" name="post" placeholder="Пошта" x-model="customer.post"/>
+                            <textarea name="comment" placeholder="Коментар до замовлення" x-model="customer.comment"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="us-page-checkout__form__cart">
+                        <h2 class="us-page-checkout__form__title">Ваше замовлення</h2>
+
+                        <div class="us-page-checkout__form__list">
+                            {# Единый источник корзины - $store.cart (тот же компонент, что в модалке). #}
+                            <template x-for="item in $store.cart.items" :key="item.canonical + ':' + item.variation">
+                                {% include '@components/product-item.twig' with {
+                                    'class': 'us-page-checkout__form__list__item'
+                                } %}
+                            </template>
+
+                            {# Заглушка, если товаров нет #}
+                            <template x-if="$store.cart.isEmpty">
+                                <div class="us-page-checkout__empty">{{ pll__('Кошик порожній') }}</div>
+                            </template>
+                        </div>
+
+                        <div class="us-page-checkout__form__summary" x-show="!$store.cart.isEmpty">
+                            <span class="us-page-checkout__form__summary__label">
+                                <span class="us-page-checkout__form__summary__label__value" x-text="$store.cart.count">0</span> товари на суму:
+                            </span>
+                            <span class="us-page-checkout__form__summary__total">
+                                <span class="us-page-checkout__form__summary__total__value" x-text="$formatPrice($store.cart.total)">0</span>
+                            </span>
+                        </div>
+
+                        <p class="us-page-checkout__error" x-show="error" x-text="error" x-cloak></p>
+
+                        <button class="us-page-checkout__form__submit"
+                                type="button"
+                                x-show="!$store.cart.isEmpty"
+                                x-on:click="submitOrder"
+                                x-bind:disabled="isSubmitting"
+                        ><span x-text="isSubmitting ? 'Відправка...' : 'Оформити замовлення'"></span></button>
+                    </div>
+                </form>
+
+                <div class="us-page-checkout__success" x-show="isSend === true">
+                    <p>Замовлення оформлене.</p>
+                    <p>Наш менеджер зв’яжеться з вами за декілька хвилин!</p>
+
+                    {% include '@components/button-square.twig' with {
+                        'version': 'v1',
+                        'type': 'link',
+                        'href': home_url(),
+                        'text': 'Повернутись до покупок',
+                        'class': 'us-page-checkout__success__btn'
+                    } %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

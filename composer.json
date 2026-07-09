@@ -1,0 +1,17 @@
+{
+    "name": "unitshot/unitshot-theme",
+    "autoload": {
+        "psr-4": {
+            "UnitshotTheme\\": "app/"
+        }
+    },
+    "require": {
+        "timber/timber": "^2.4",
+        "yahnis-elsts/plugin-update-checker": "^5.6",
+        "everapi/currencyapi-php": "^1.0"
+    },
+  "scripts": {
+    "release": "php ./tools/release.php",
+    "collect-pll": "php tools/collect-pll-strings.php"
+  }
+}

@@ -1,0 +1,18 @@
+@use '@styles/base/mixins' as *;
+
+.us-modal-remove-cart {
+  --us-modal-width: 380px;
+
+  @include media-md() {
+    --us-modal-width: 280px;
+  }
+
+  .us-modal {
+    &__body{
+      display: none;
+    }
+    &__footer {
+      display: none;
+    }
+  }
+}

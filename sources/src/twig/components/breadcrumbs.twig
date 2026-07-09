@@ -1,0 +1,9 @@
+{% if links %}
+    <ul class="us-breadcrumbs {{ class }}">
+        {% for link in links %}
+            <li class="us-breadcrumbs__item">
+                <a href="{{ link.src }}" class="us-breadcrumbs__link {% if link.is_current %} us-breadcrumbs__link--current {% endif %}">{{ link.title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}

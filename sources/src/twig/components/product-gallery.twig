@@ -1,0 +1,41 @@
+{% if slides %}
+    <div class="us-product-gallery" x-data="ProductGalleryComponent">
+        <div class="swiper us-product-gallery__main">
+            {% include '@components/button-arrow.twig' with {
+                'version': 'v2',
+                'class': 'us-product-gallery__main__prev'
+            } %}
+
+            <div class="swiper-wrapper us-product-gallery__main__wrapper">
+                {% for slide in slides %}
+                    <div class="swiper-slide us-product-gallery__main__slide">
+                        {% include '@components/image.twig' with {
+                            'class': 'us-product-gallery__main__slide__img',
+                            'image': slide
+                        } %}
+                    </div>
+                {% endfor %}
+            </div>
+
+            {% include '@components/button-arrow.twig' with {
+                'version': 'v2',
+                'class': 'us-product-gallery__main__next'
+            } %}
+        </div>
+
+        <div class="us-product-gallery__pagination"></div>
+
+        <div class="swiper us-product-gallery__thumbs">
+            <div class="swiper-wrapper us-product-gallery__thumbs__wrapper">
+                {% for slide in slides %}
+                    <div class="swiper-slide us-product-gallery__thumbs__slide">
+                        {% include '@components/image.twig' with {
+                            'class': 'us-product-gallery__thumbs__slide__img',
+                            'image': slide
+                        } %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endif %}

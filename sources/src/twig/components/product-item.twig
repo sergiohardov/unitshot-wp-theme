@@ -1,0 +1,46 @@
+{#
+    Универсальная строка товара корзины (модалка корзины + страница оформления).
+    Рендерит только Alpine-привязки против переданных выражений - единый источник
+    разметки для обоих мест. Данные позиции и действия (qty/удаление) приходят из
+    стора, поэтому компонент не зависит от того, кто его рендерит.
+
+    Параметры:
+      item  - Alpine-выражение объекта позиции (по умолчанию 'item' - напр. внутри x-for)
+      store - Alpine-выражение стора с методами setQty/remove (по умолчанию '$store.cart')
+      class - доп. класс
+#}
+{% set item  = item|default('item') %}
+{% set store = store|default('$store.cart') %}
+
+<div class="us-product-item {{ class }}">
+    <button class="us-product-item__close" type="button"
+            x-on:click="{{ store }}.remove({{ item }}.canonical, {{ item }}.variation)"></button>
+
+    <a class="us-product-item__image" :href="{{ item }}.url">
+        <img class="us-product-item__image__img" :src="{{ item }}.image.src" :alt="{{ item }}.image.alt"
+             x-show="{{ item }}.image && {{ item }}.image.src">
+    </a>
+
+    <a class="us-product-item__title" :href="{{ item }}.url" x-text="{{ item }}.title"></a>
+
+    {# Вариация над счётчиком - в той же ячейке грида #}
+    <div class="us-product-item__controls">
+        <span class="us-product-item__variation" x-show="{{ item }}.variation_label" x-text="{{ item }}.variation_label"></span>
+
+        <div class="us-quantity us-product-item__qty">
+            <button class="us-quantity__minus" type="button"
+                    x-on:click="{{ store }}.setQty({{ item }}.canonical, {{ item }}.variation, {{ item }}.qty - 1)">{{ svg_icon('minus') }}</button>
+
+            <input class="us-quantity__input" type="number" min="1" :value="{{ item }}.qty"
+                   x-on:change="{{ store }}.setQty({{ item }}.canonical, {{ item }}.variation, parseInt($el.value) || 1)">
+
+            <button class="us-quantity__plus" type="button"
+                    x-on:click="{{ store }}.setQty({{ item }}.canonical, {{ item }}.variation, {{ item }}.qty + 1)">{{ svg_icon('plus') }}</button>
+        </div>
+    </div>
+
+    <div class="us-product-item__prices">
+        <span class="us-product-item__price-old" x-show="{{ item }}.old_line" x-text="$formatPrice({{ item }}.old_line)"></span>
+        <span class="us-product-item__price" x-text="$formatPrice({{ item }}.line)"></span>
+    </div>
+</div>

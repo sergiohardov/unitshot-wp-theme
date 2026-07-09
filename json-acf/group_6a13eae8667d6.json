@@ -1,0 +1,155 @@
+{
+    "key": "group_6a13eae8667d6",
+    "title": "Options: API Ключи",
+    "fields": [
+        {
+            "key": "field_6a13eae8e2fda",
+            "label": "API Ключи",
+            "name": "unitshot_options_api_keys",
+            "aria-label": "",
+            "type": "group",
+            "instructions": "Данная страница настроек добавлена в исключения плагина \"acf-options-for-polylang\". Мультиязычность для нее - не работает.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "row",
+            "sub_fields": [
+                {
+                    "key": "field_6a13eb0de2fdb",
+                    "label": "Currency Conversion",
+                    "name": "currencyapi",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "https://app.currencyapi.com/api-keys",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "translations": "sync",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "pll_default_value": ""
+                },
+                {
+                    "key": "field_6a13eb2fe2fdc",
+                    "label": "Google Maps",
+                    "name": "googlemaps",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "https://mapsplatform.google.com/lp/maps-apis/",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "pll_default_value": ""
+                },
+                {
+                    "key": "field_6a13eb40e2fe1",
+                    "label": "Telegram Bot Token",
+                    "name": "telegram_token",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "Токен бота от @BotFather (для уведомлений о заказах/звонках).",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "pll_default_value": ""
+                },
+                {
+                    "key": "field_6a13eb41e2fe2",
+                    "label": "Telegram Chat ID",
+                    "name": "telegram_chat_id",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "ID чата/канала, куда слать уведомления (напр. 100123... или личный id).",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "pll_default_value": ""
+                },
+                {
+                    "key": "field_6a13eb42e2fe3",
+                    "label": "Email для заказов",
+                    "name": "order_email",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "Куда дублировать заказы/звонки на почту.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "pll_default_value": ""
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "options_page",
+                "operator": "==",
+                "value": "unitshot-settings-api-keys"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "pll_display_field_instructions": 1,
+    "modified": 1781888523
+}

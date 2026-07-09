@@ -1,0 +1,24 @@
+@use '@styles/base/mixins' as *;
+
+.us-slider-product-cards {
+
+  // Так как слайдер имеет loop=true то это единственный класс который дает возможность убрать стрелки если недостаточно слайдов для прокрутки
+  .us-slider__navigation--lock {
+    display: none;
+  }
+
+  .us-slider__prev, .us-slider__next {
+    @include media-md() {
+      display: none;
+    }
+  }
+
+  .us-slider__pagination {
+    display: none;
+
+    @include media-md() {
+      display: flex;
+      margin-top: 12px;
+    }
+  }
+}

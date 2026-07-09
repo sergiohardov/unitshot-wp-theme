@@ -1,0 +1,182 @@
+{
+    "key": "group_69fda6d578de9",
+    "title": "Options: Валюта",
+    "fields": [
+        {
+            "key": "field_69fda6d53bae6",
+            "label": "Валюта",
+            "name": "unitshot_options_currency",
+            "aria-label": "",
+            "type": "group",
+            "instructions": "Данная страница настроек добавлена в исключения плагина \"acf-options-for-polylang\". Мультиязычность для нее - не работает.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "row",
+            "sub_fields": [
+                {
+                    "key": "field_69fda78598cb4",
+                    "label": "Обновить курс",
+                    "name": "is_update",
+                    "aria-label": "",
+                    "type": "true_false",
+                    "instructions": "Для того что бы вручную запросить новые данные множителей курса, передвиньте переключатель на \"да\" и сохраните настройки. Для работы нужен API токен сервиса \"currencyapi.com\". <a href=\"https:\/\/unitshot.local\/wp-admin\/admin.php?page=unitshot-settings-api-keys\">Добавить<\/a>",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "",
+                    "default_value": 0,
+                    "allow_in_bindings": 0,
+                    "ui_on_text": "",
+                    "ui_off_text": "",
+                    "ui": 1
+                },
+                {
+                    "key": "field_69fcdd62b9612",
+                    "label": "Валюты",
+                    "name": "currencies",
+                    "aria-label": "",
+                    "type": "repeater",
+                    "instructions": "Курс валют обновляется автоматически через \"currencyapi.com\" два раза в день.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "layout": "table",
+                    "pagination": 0,
+                    "min": 0,
+                    "max": 0,
+                    "collapsed": "",
+                    "button_label": "Добавить",
+                    "rows_per_page": 20,
+                    "sub_fields": [
+                        {
+                            "key": "field_69fcdd88b9614",
+                            "label": "Код",
+                            "name": "code",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "translations": "ignore",
+                            "maxlength": "",
+                            "allow_in_bindings": 0,
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "",
+                            "parent_repeater": "field_69fcdd62b9612"
+                        },
+                        {
+                            "key": "field_69fcdd95b9615",
+                            "label": "Символ",
+                            "name": "symbol",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "translations": "ignore",
+                            "maxlength": "",
+                            "allow_in_bindings": 0,
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "",
+                            "parent_repeater": "field_69fcdd62b9612"
+                        },
+                        {
+                            "key": "field_69fda80e15932",
+                            "label": "Значение",
+                            "name": "value",
+                            "aria-label": "",
+                            "type": "number",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": 1,
+                            "translations": "ignore",
+                            "min": 0,
+                            "max": "",
+                            "allow_in_bindings": 0,
+                            "placeholder": "",
+                            "step": "",
+                            "prepend": "",
+                            "append": "",
+                            "parent_repeater": "field_69fcdd62b9612"
+                        },
+                        {
+                            "key": "field_69fcdda2b9616",
+                            "label": "По умолчанию",
+                            "name": "is_default",
+                            "aria-label": "",
+                            "type": "true_false",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "message": "",
+                            "default_value": 0,
+                            "translations": "ignore",
+                            "allow_in_bindings": 0,
+                            "ui": 0,
+                            "ui_on_text": "",
+                            "ui_off_text": "",
+                            "parent_repeater": "field_69fcdd62b9612"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "options_page",
+                "operator": "==",
+                "value": "unitshot-settings-currency"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1779691048
+}

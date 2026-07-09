@@ -1,0 +1,118 @@
+{% extends '@layouts/base.twig' %}
+
+{% block content %}
+    <div class="us-page-catalog">
+        <div class="us-container">
+            <div class="us-page-catalog__inner">
+                {% include '@components/breadcrumbs.twig' with {
+                    'links': breadcrumbs,
+                    'class': 'us-page-catalog__breadcrumbs'
+                } %}
+
+                {% include '@components/page-title.twig' with {
+                    'class': 'us-page-catalog__title',
+                    'title': title,
+                    'tag': 'h1'
+                } %}
+
+                {% if categories %}
+                    {% include '@components/slider-categories.twig' with {
+                        'categories': categories
+                    } %}
+                {% endif %}
+
+                <div class="us-page-catalog__buttons" x-data>
+                    {% include '@components/button-square.twig' with {
+                        'class': 'us-page-catalog__buttons__filter-btn',
+                        'version': 'v2',
+                        'text': 'Фільтр',
+                        'x_click': "$store.ModalStore.open('us-modal-filter')"
+                    } %}
+
+                    <div class="us-page-catalog__buttons__sort">
+                        {# Если применена не дефолтная сортировка - показываем её название вместо Сортувати. #}
+                        {% set sort_label = pll__('Сортувати') %}
+                        {% for option in sort|filter(o => o.is_current and not o.is_default) %}
+                            {% set sort_label = option.label %}
+                        {% endfor %}
+
+                        {% include '@components/button-square.twig' with {
+                            'class': 'us-page-catalog__buttons__sort-btn',
+                            'version': 'v2',
+                            'text': sort_label,
+                        } %}
+
+                        <div class="us-page-catalog__buttons__sort-dropdown">
+                            {% for option in sort %}
+                                <a href="{{ option.href }}" class="us-page-catalog__buttons__sort-option {% if option.is_current %}us-page-catalog__buttons__sort-option--active{% endif %}">{{ option.label }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                </div>
+
+                {% if products %}
+                    <div class="us-page-catalog__products">
+                        {% for product in products %}
+                            {% include '@components/product-card.twig' with {
+                                'tags': product.tags,
+                                'image': product.image,
+                                'title': product.title,
+                                'brand': product.brand,
+                                'category': product.category,
+                                'price': product.price,
+                                'add': product.add,
+                            } %}
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="us-page-catalog__empty">
+                        <div class="us-page-catalog__empty__icon">
+                            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path d="M8 22 32 10l24 12-24 12L8 22Z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+                                <path d="M8 22v20l24 12V34" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+                                <path d="M56 22v20L32 54" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <p class="us-page-catalog__empty__title">{{ pll__('Товарів не знайдено') }}</p>
+                        <p class="us-page-catalog__empty__text">{{ pll__('Спробуйте змінити параметри фільтра або очистити їх') }}</p>
+                        {% include '@components/button-square.twig' with {
+                            'type': 'link',
+                            'version': 'v1',
+                            'text': pll__('Очистити фільтри'),
+                            'class': 'us-page-catalog__empty__btn',
+                            'href': filter.clear_url
+                        } %}
+                    </div>
+                {% endif %}
+
+                {% include '@components/pagination.twig' with {
+                    'class': 'us-page-catalog__pagination',
+                    'prev': pagination.prev,
+                    'next': pagination.next,
+                    'pages': pagination.pages
+                } %}
+
+                {% include '@blocks/feedback-info.twig' with {
+                    'class': 'us-page-catalog__feedback-info',
+                    'title': feedback_info.title,
+                    'description': feedback_info.description,
+                    'socials': feedback_info.socials,
+                    'numbers': feedback_info.numbers
+                } %}
+
+                {% include '@blocks/text-image.twig' with {
+                    'block_id': text_image.block_id,
+                    'title': text_image.title,
+                    'description': text_image.description,
+                    'media_type': text_image.media_type,
+                    'image': text_image.image,
+                    'posts': text_image.posts,
+                    'hide_text': text_image.hide_text,
+                } %}
+            </div>
+        </div>
+
+        {% include '@components/modal-filter.twig' %}
+    </div>
+{% endblock %}

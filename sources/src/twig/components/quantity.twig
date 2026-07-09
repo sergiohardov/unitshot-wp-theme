@@ -1,0 +1,15 @@
+{# value: задает стартовое значение (по умолчанию 1) #}
+{# x_model: для привязки к родительскому состоянию (например, 'x-model="item.qty"') #}
+{# Сам инпут жестко привязан к локальному qty #}
+
+<div class="us-quantity {{ class }}"
+     x-data="{ qty: {{ value|default(1) }} }"
+     x-modelable="qty"
+     {% if x_model %} x-model="{{ x_model }}" {% endif %}
+>
+    <button class="us-quantity__minus" type="button" x-on:click="if(qty > 1) qty--">{{ svg_icon('minus') }}</button>
+
+    <input class="us-quantity__input" name="{{ name }}" type="number" x-model.number="qty" x-on:input="if ($el.value < 1) qty = 1">
+
+    <button class="us-quantity__plus" type="button" x-on:click="qty++">{{ svg_icon('plus') }}</button>
+</div>

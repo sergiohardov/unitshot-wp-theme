@@ -1,0 +1,56 @@
+{% if title or description or socials or numbers %}
+    <div class="us-feedback-info {{ class }}" id="{{ block_id }}">
+        <div class="us-container">
+            <div class="us-feedback-info__inner">
+                {% include '@components/page-title.twig' with {
+                    'class': '',
+                    'title': title
+                } %}
+
+                {% if description %}
+                    <div class="us-feedback-info__description">{{ description|raw }}</div>
+                {% endif %}
+
+                <div class="us-feedback-info__contacts">
+                    {% if socials %}
+                        <div class="us-feedback-info__contacts-content">
+                            <span class="us-feedback-info__contacts-title">{{ pll__('Написати нам') }}:</span>
+                            <div class="us-feedback-info__socials">
+                                {% for social in socials %}
+                                    <a class="us-feedback-info__socials-link" href="{{ social.link }}" target="_blank" rel="noopener noreferrer">
+                                        {# TODO: заменить на функцию svg_icon #}
+                                        <img src="{{ get_images_uri('/icons/' ~ social.icon ~ '.svg') }}">
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if numbers %}
+                        <div class="us-feedback-info__contacts-content">
+                            <span class="us-feedback-info__contacts-title">{{ pll__('Подзвонити') }}:</span>
+                            <div class="us-feedback-info__numbers">
+                                {% for number in numbers %}
+                                    {% include '@components/phone-number.twig' with {
+                                        'class': '',
+                                        'number': number
+                                    } %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <div class="us-feedback-info__contacts-content" x-data>
+                        <span class="us-feedback-info__contacts-title">{{ pll__('Замовити дзвінок') }}:</span>
+                        {% include '@components/button-square.twig' with {
+                            'version': 'v2',
+                            'text': pll__('Безкоштовна констультація'),
+                            'class': 'us-feedback-info__contacts-btn',
+                            'x_click': "$store.ModalStore.open('us-modal-call')"
+                        } %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}

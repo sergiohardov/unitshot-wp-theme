@@ -1,0 +1,44 @@
+{% extends '@layouts/base.twig' %}
+
+{% block content %}
+    <div class="us-page-blog">
+        <div class="us-container">
+            <div class="us-page-blog__inner">
+                {% include '@components/breadcrumbs.twig' with {
+                    'links': breadcrumbs,
+                    'class': 'us-page-blog__breadcrumbs'
+                } %}
+
+                {% if posts %}
+                    <div class="us-page-blog__list">
+                        {% for post in posts %}
+                            <div class="us-page-blog__item">
+                                <div class="us-page-blog__item__image">
+                                    {% include '@components/image.twig' with {
+                                        'image': post.image
+                                    } %}
+                                </div>
+                                <div class="us-page-blog__item__content">
+                                    <h2 class="us-page-blog__item__title">
+                                        <a href="{{ post.link }}">{{ post.title }}</a>
+                                    </h2>
+                                    <div class="us-page-blog__item__caption">
+                                        {{ post.caption|raw }}
+                                    </div>
+
+                                    <a class="us-page-blog__item__link" href="{{ post.link }}">{{ pll__('Читати більше') }}</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                {% include '@components/pagination.twig' with {
+                    'prev': pagination.prev,
+                    'next': pagination.next,
+                    'pages': pagination.pages
+                } %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

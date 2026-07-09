@@ -1,0 +1,33 @@
+<div class="us-range {{ class }}"
+     x-data="RangeComponent({{ min|default(0) }}, {{ max|default(10000) }}, {{ current_min|default(min) }}, {{ current_max|default(max) }})">
+
+    <div class="us-range__price-input">
+        <input class="us-range__input-min" type="number"
+               name="{{ name_min|default('min_price') }}"
+               x-model.number="minVal"
+               x-on:input="updateMin">
+
+        <div class="us-range__separator"></div>
+
+        <input class="us-range__input-max" type="number"
+               name="{{ name_max|default('max_price') }}"
+               x-model.number="maxVal"
+               x-on:input="updateMax">
+    </div>
+
+    <div class="us-range__range-input">
+        <div class="us-range__slider">
+            <div class="us-range__progress" x-bind:style="`left: ${leftPercent}; right: ${rightPercent}`"></div>
+        </div>
+
+        <input class="us-range__range-min" type="range"
+               min="{{ min|default(0) }}" max="{{ max|default(10000) }}" step="100"
+               x-model.number="minVal"
+               x-on:input="updateMin">
+
+        <input class="us-range__range-max" type="range"
+               min="{{ min|default(0) }}" max="{{ max|default(10000) }}" step="100"
+               x-model.number="maxVal"
+               x-on:input="updateMax">
+    </div>
+</div>

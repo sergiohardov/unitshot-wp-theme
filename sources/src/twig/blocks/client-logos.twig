@@ -1,0 +1,32 @@
+{% if title or clients %}
+    <div class="us-client-logos" id="{{ block_id }}" x-data="{ expanded: false }">
+        <div class="us-container">
+            <div class="us-client-logos__inner">
+                {% include '@components/page-title.twig' with {
+                    'title': title
+                } %}
+
+                {% if clients %}
+                    <ul class="us-client-logos__list" x-bind:class="{ 'us-client-logos__list--collapsed': !expanded }">
+                        {% for client in clients %}
+                            <li class="us-client-logos__item">
+                                <div class="us-client-logos__item__inner">
+                                    {% include '@components/image.twig' with {
+                                        'class': 'us-client-logos__item__img',
+                                        'image': client
+                                    } %}
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+
+                <div class="us-client-logos__more {% if clients|length > 24 %} us-client-logos__more--24 {% endif %} {% if clients|length > 21 %} us-client-logos__more--21 {% endif %}">
+                    {% include '@components/button-show-more.twig' with {
+                        'x_model': 'expanded'
+                    } %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}

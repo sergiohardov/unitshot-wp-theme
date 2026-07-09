@@ -1,0 +1,51 @@
+{% if title or description or image or posts %}
+    <div class="us-text-image" id="{{ block_id }}" {% if hide_text %} x-data="{ expanded: false }" {% endif %}>
+        <div class="us-container">
+            <div class="us-text-image__inner">
+                <div class="us-text-image__text">
+                    {% include '@components/page-title.twig' with {
+                        'title': title
+                    } %}
+
+                    {% if description %}
+                        <div class="us-text-image__description {% if hide_text %} us-text-image__description--hidden {% endif %}" {% if hide_text %} x-bind:class="{ 'us-text-image__description--hidden': !expanded }" {% endif %}>
+                            <div class="us-text-image__description-content">{{ description|raw }}</div>
+                        </div>
+                    {% endif %}
+
+                    {% if hide_text %}
+                        {% include '@components/button-show-more.twig' with {
+                            'class': 'us-text-image__more-btn',
+                            'x_model': 'expanded'
+                        } %}
+                    {% endif %}
+                </div>
+
+                {% if media_type == 'posts' and posts %}
+                    <div class="us-text-image__posts">
+                        {% for post in posts %}
+                            <a href="{{ post.link }}" class="us-text-image__post">
+                                <div class="us-text-image__post-image">
+                                    {% include '@components/image.twig' with {
+                                        'image': post.image
+                                    } %}
+                                </div>
+                                <div class="us-text-image__post-text">
+                                    <p class="us-text-image__post-date">{{ post.date }}</p>
+                                    <p class="us-text-image__post-title">{{ post.title }}</p>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="us-text-image__image">
+                        {% include '@components/image.twig' with {
+                            'class': 'us-text-image__image__img',
+                            'image': image
+                        } %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endif %}

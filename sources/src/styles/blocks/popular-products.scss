@@ -1,0 +1,13 @@
+@use '@styles/base/mixins' as *;
+
+.us-popular-products {
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    @include media-md() {
+      gap: 16px;
+    }
+  }
+}

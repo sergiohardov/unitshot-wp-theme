@@ -1,0 +1,15 @@
+@use '@styles/base/mixins' as *;
+
+.us-page-home {
+  padding-top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 120px;
+  padding-bottom: 120px;
+
+  @include media-md() {
+    gap: 80px;
+    padding-top: 20px;
+    padding-bottom: 80px;
+  }
+}

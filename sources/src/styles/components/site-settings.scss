@@ -1,0 +1,41 @@
+@use '@styles/base/mixins' as *;
+
+.us-site-settings {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 12px;
+    @include font-sussie-regular;
+    transition: var(--unitshot-transition-speed);
+
+    &:hover {
+      color: var(--unitshot-accent-pink);
+    }
+
+    &:not(:first-child):before {
+      content: '';
+      display: inline-block;
+      width: 1px;
+      height: 14px;
+      background-color: var(--unitshot-gray-light);
+      border-radius: 2px;
+    }
+
+    &--current {
+      font-size: 16px;
+      @include font-suisse-bold;
+    }
+  }
+}

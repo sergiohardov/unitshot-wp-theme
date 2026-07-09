@@ -1,0 +1,234 @@
+@use "@styles/base/mixins" as *;
+
+.us-product-set {
+
+  &__title {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: var(--unitshot-gray-main);
+    @include font-suisse-medium;
+
+    @include media-md() {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+  }
+
+  &__product {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: repeat(2, auto);
+    gap: 14px 20px;
+    padding: 0 34px;
+    grid-template-areas:
+        "image title"
+        "image price";
+
+    @include media-md() {
+      gap: 8px;
+      padding: 8px 20px;
+    }
+
+    &__image {
+      grid-area: image;
+      width: 120px;
+      height: 120px;
+      border-radius: 6px;
+      overflow: hidden;
+
+      @include media-md() {
+        width: 44px;
+        height: 44px;
+      }
+
+      &__img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
+
+    &__title {
+      grid-area: title;
+      font-size: 20px;
+      color: var(--unitshot-gray-main);
+      @include font-ppneue-medium;
+
+      @include media-md() {
+        font-size: 14px;
+      }
+    }
+
+    &__price {
+      grid-area: price;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+
+      @include media-md() {
+        gap: 20px;
+      }
+    }
+
+    &__price-old {
+      color: var(--unitshot-red);
+      font-size: 16px;
+      @include font-suisse-semibold;
+      text-decoration: line-through;
+
+      @include media-md() {
+        font-size: 14px;
+      }
+    }
+
+    &__price-current {
+      color: var(--unitshot-gray-main);
+      font-size: 24px;
+      @include font-ppneue-medium;
+
+      @include media-md() {
+        font-size: 18px;
+      }
+    }
+  }
+
+  &__slide {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    @include media-md() {
+      gap: 8px;
+    }
+  }
+
+  &__plus {
+    margin: 8px 0;
+    width: 100%;
+    height: 44px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @include media-md() {
+      margin: 0;
+    }
+
+    svg {
+      width: 17px;
+      height: 17px;
+    }
+  }
+
+  &__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 32px;
+
+    @include media-md() {
+      gap: 12px;
+    }
+
+
+    &__price {
+      display: flex;
+      flex-direction: column;
+
+      @include media-md() {
+        gap: 2px;
+        flex-wrap: wrap;
+      }
+
+      &__title {
+        margin-bottom: 10px;
+        width: 100%;
+        color: var(--unitshot-gray-main);
+        font-size: 28px;
+        @include font-ppneue-medium;
+
+        @include media-md() {
+          font-size: 18px;
+        }
+      }
+
+      &__total {
+        text-wrap: nowrap;
+        color: var(--unitshot-gray-main);
+        font-size: 32px;
+        @include font-ppneue-medium;
+
+        @include media-md() {
+          font-size: 20px;
+        }
+      }
+
+      &__old {
+        text-wrap: nowrap;
+        color: var(--unitshot-red);
+        font-size: 20px;
+        text-decoration: line-through;
+        @include font-ppneue-medium;
+
+        @include media-md() {
+          font-size: 14px;
+        }
+      }
+    }
+
+    &__btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: auto;
+      margin-right: 0;
+      height: 44px;
+      max-width: 300px;
+      width: 100%;
+      border-radius: 6px;
+      background-color: var(--unitshot-accent-pink);
+      padding: 5px;
+      font-size: 16px;
+      color: var(--unitshot-white);
+      text-decoration: none;
+      @include font-ppneue-medium;
+
+      @include media-md() {
+        font-size: 14px;
+        height: 40px;
+        max-width: 179px;
+      }
+    }
+  }
+
+  &__slider {
+    position: relative;
+
+    &__wrapper {
+      height: auto !important;
+    }
+
+    &__prev, &__next {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      z-index: 10;
+    }
+
+    &__prev {
+      left: 0;
+      transform: rotate(180deg);
+    }
+
+    &__next {
+      right: 0;
+    }
+
+    // Так как слайдер имеет loop=true то это единственный класс который дает возможность убрать стрелки если недостаточно слайдов для прокрутки
+    .swiper-button-lock {
+      display: none;
+    }
+  }
+}

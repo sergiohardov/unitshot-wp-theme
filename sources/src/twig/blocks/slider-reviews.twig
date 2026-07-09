@@ -1,0 +1,54 @@
+{% extends '@layouts/slider.twig' %}
+
+{% set class = 'us-slider-reviews' %}
+{% set id = block_id %}
+{% set swiper_options = {
+    "loop": true,
+    "slidesPerView": 1.5,
+    "breakpoints": {
+        769: { "slidesPerView": 2 },
+        993: { "slidesPerView": 3 }
+    }
+} %}
+
+{% block before_slider %}
+<div class="us-container">
+    {% include '@components/page-title.twig' with {
+        'title': title,
+        'class': 'us-slider-reviews__title'
+    } %}
+
+    {% endblock %}
+
+    {% block slides %}
+        {% for slide in slides %}
+            <div class="swiper-slide">
+                {% set review_attrs = slide.review
+                    ? 'data-review-src="' ~ slide.review.src|e('html_attr') ~ '"'
+                      ~ ' data-review-type="' ~ slide.review.type ~ '"'
+                      ~ ' data-review-index="' ~ slide.review_index ~ '"'
+                      ~ ' data-review-name="' ~ slide.name|e('html_attr') ~ '"'
+                      ~ ' data-review-position="' ~ slide.position|e('html_attr') ~ '"'
+                    : '' %}
+
+                <div class="us-slider-reviews__slide">
+                    <div class="us-slider-reviews__slide-image {% if slide.review %}us-slider-reviews__slide-image--clickable{% endif %}" {{ review_attrs|raw }}>
+                        {% include '@components/image.twig' with {
+                            'image': slide.image
+                        } %}
+                    </div>
+
+                    <div class="us-slider-reviews__slide-text">
+                        <p class="us-slider-reviews__slide-name {% if slide.review %}us-slider-reviews__slide-name--clickable{% endif %}" {{ review_attrs|raw }}>{{ slide.name }}</p>
+                        <p class="us-slider-reviews__slide-position">{{ slide.position }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endblock %}
+
+    {% block after_slider %}
+</div>
+{% endblock %}
+
+

@@ -1,0 +1,30 @@
+{% extends '@layouts/modal.twig' %}
+
+{% set id = 'us-modal-cart' %}
+{% set class = 'us-modal-cart' %}
+{% set modify = 'right' %}
+{% set title = pll__('Кошик') %}
+{% set data = null %}
+{% set x_data = null %}
+{% set buttons = null %}
+
+{% block body %}
+    <div class="us-modal-cart__list">
+        <template x-if="$store.cart.isEmpty">
+            <p class="us-modal-cart__empty">{{ pll__('Ваш кошик порожній') }}</p>
+        </template>
+
+        <template x-for="item in $store.cart.items" :key="item.canonical + ':' + item.variation">
+            {% include '@components/product-item.twig' %}
+        </template>
+    </div>
+
+    <div class="us-modal-cart__total" x-show="!$store.cart.isEmpty">
+        <div class="us-modal-cart__price">
+            <span class="us-modal-cart__price__title">{{ pll__('Сума') }}:</span>
+            <span class="us-modal-cart__price__sum" x-text="$formatPrice($store.cart.total)"></span>
+        </div>
+
+        <a class="us-button-square us-button-square--v1 us-modal-cart__checkout-btn" href="{{ route_url('checkout') }}">{{ pll__('Оформити замовлення') }}</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,61 @@
+/* Media Queries */
+@mixin media-xl() {
+  @media screen and (max-width: 1200px) {
+    @content;
+  }
+}
+
+@mixin media-lg() {
+  @media screen and (max-width: 992px) {
+    @content;
+  }
+}
+
+@mixin min-media-md() {
+  @media screen and (min-width: 768px) {
+    @content;
+  }
+}
+
+@mixin media-md() {
+  @media screen and (max-width: 768px) {
+    @content;
+  }
+}
+
+/* Fonts */
+@mixin font-sussie-regular {
+  font-family: "SuisseIntl", sans-serif;
+  font-weight: 400;
+}
+
+@mixin font-suisse-medium {
+  font-family: "SuisseIntl", sans-serif;
+  font-weight: 500;
+}
+
+@mixin font-suisse-semibold {
+  font-family: "SuisseIntl", sans-serif;
+  font-weight: 600;
+}
+
+@mixin font-suisse-bold {
+  font-family: "SuisseIntl", sans-serif;
+  font-weight: 700;
+}
+
+@mixin font-drkrapka-medium {
+  font-family: "DRKrapkaRound", sans-serif;
+  font-weight: 500;
+}
+
+@mixin font-ppneue-medium {
+  font-family: "PPNeueMontrealMono", monospace;
+  font-weight: 500;
+}
+
+@mixin font-ppneue-bold {
+  font-family: "PPNeueMontrealMono", monospace;
+  font-weight: 700;
+}
+

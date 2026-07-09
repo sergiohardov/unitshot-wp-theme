@@ -1,0 +1,12 @@
+@use '@styles/base/mixins' as *;
+
+.us-page-title {
+  font-size: 46px;
+  text-transform: uppercase;
+  color: var(--unitshot-gray-main);
+  @include font-suisse-bold;
+
+  @include media-md() {
+    font-size: 24px;
+  }
+}

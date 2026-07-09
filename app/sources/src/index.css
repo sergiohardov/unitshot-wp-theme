@@ -1,0 +1,116 @@
+/*
+ * Tailwind БЕЗ глобального preflight - иначе его reset (* { margin:0 ... })
+ * сбрасывает всю wp-admin страницу. Берём только theme + utilities.
+ * important: true (tailwind.config.js) - чтобы утилиты били unlayered wp-стили.
+ */
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+@config "../tailwind.config.js";
+
+/*
+ * Скоупленный сброс ВМЕСТО preflight - без @layer (unlayered), чтобы по
+ * специфичности (#id) бить форм-стили wp-admin, но уступать important-утилитам.
+ */
+:is(#us-product-app, #us-attributes-app),
+:is(#us-product-app, #us-attributes-app) *,
+:is(#us-product-app, #us-attributes-app) *::before,
+:is(#us-product-app, #us-attributes-app) *::after {
+    box-sizing: border-box;
+}
+
+:is(#us-product-app, #us-attributes-app) * {
+    border: 0 solid; /* чтобы border-* утилиты рисовали границу */
+}
+
+:is(#us-product-app, #us-attributes-app) :is(h1, h2, h3, h4, h5, p, ul, ol, pre, figure) {
+    margin: 0;
+}
+
+:is(#us-product-app, #us-attributes-app) pre {
+    font: inherit;
+}
+
+/* Нейтрализуем форм-стили wp-admin (min-height/line-height/box-shadow/фокус). */
+:is(#us-product-app, #us-attributes-app) :is(input, select, textarea) {
+    min-height: 0;
+    line-height: 1.5;
+    box-shadow: none;
+    outline: none;
+}
+
+/* Кнопки (тулбар редактора) - снимаем chrome wp-admin, вид задаёт Tailwind. */
+:is(#us-product-app, #us-attributes-app) button {
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    color: inherit;
+    font: inherit;
+}
+
+/* Чекбоксы/радио - вернуть нативный вид (wp заменяет appearance и рисует свой). */
+:is(#us-product-app, #us-attributes-app) :is(input[type="checkbox"], input[type="radio"]) {
+    appearance: auto;
+}
+
+:is(#us-product-app, #us-attributes-app) :is(input[type="checkbox"], input[type="radio"])::before {
+    content: none;
+}
+
+/*
+ * Типографика внутри редактора (Tiptap/.ProseMirror). Скоупим под #id, чтобы
+ * перебить наш же reset (он обнуляет отступы заголовков/списков в острове).
+ */
+:is(#us-product-app, #us-attributes-app) .us-rte .ProseMirror {
+    min-height: 140px;
+    outline: none;
+    font-size: 14px;
+    color: #1d2327;
+}
+
+:is(#us-product-app, #us-attributes-app) .us-rte .ProseMirror:focus {
+    outline: none;
+}
+
+:is(#us-product-app, #us-attributes-app) .us-rte .ProseMirror p {
+    margin: 0 0 0.75em;
+}
+
+:is(#us-product-app, #us-attributes-app) .us-rte .ProseMirror h2 {
+    margin: 0.6em 0 0.3em;
+    font-size: 1.4em;
+    font-weight: 600;
+}
+
+:is(#us-product-app, #us-attributes-app) .us-rte .ProseMirror h3 {
+    margin: 0.6em 0 0.3em;
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+:is(#us-product-app, #us-attributes-app) .us-rte .ProseMirror ul {
+    margin: 0 0 0.75em;
+    padding-left: 1.4em;
+    list-style: disc;
+}
+
+:is(#us-product-app, #us-attributes-app) .us-rte .ProseMirror ol {
+    margin: 0 0 0.75em;
+    padding-left: 1.4em;
+    list-style: decimal;
+}
+
+:is(#us-product-app, #us-attributes-app) .us-rte .ProseMirror blockquote {
+    margin: 0 0 0.75em;
+    padding-left: 0.9em;
+    border-left: 3px solid #dcdcde;
+    color: #50575e;
+}
+
+:is(#us-product-app, #us-attributes-app) .us-rte .ProseMirror a {
+    color: #2271b1;
+    text-decoration: underline;
+}
+
+:is(#us-product-app, #us-attributes-app) .us-rte .ProseMirror > :last-child {
+    margin-bottom: 0;
+}

@@ -1,0 +1,27 @@
+{% extends '@layouts/base.twig' %}
+
+{% block content %}
+    <div class="us-page-default-page">
+        <div class="us-container">
+            <div class="us-page-default-page__inner">
+                {% include '@components/breadcrumbs.twig' with {
+                    'links': breadcrumbs,
+                    'class': 'us-page-default-page__breadcrumbs'
+                } %}
+
+                {% if title %}
+                    <div class="us-page-default-page__content">
+                        {% include '@components/page-title.twig' with {
+                            "title": title,
+                            'class': 'us-page-default-page__content__title'
+                        } %}
+
+                        {% if content %}
+                            <div class="us-page-default-page__content__text">{{ content|raw }}</div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

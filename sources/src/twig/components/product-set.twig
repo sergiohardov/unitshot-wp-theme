@@ -1,0 +1,82 @@
+{#
+   Блок «товар входить у набори» на странице обычного товара.
+   Сверху статично - текущий товар, затем «+», затем слайдер: один слайд = один
+   набор (остальные его товары). Снизу - цена активного набора и ссылка на него.
+
+   Контекст:
+     current { image, title, price, old_price } - текущий товар
+     sets[]  { url, price, old_price, items:[{image,title,price,old_price}] }
+#}
+{% if sets %}
+    <div class="us-product-set {{ class }}" x-data="ProductSetComponent">
+        <p class="us-product-set__title">{{ pll__('Разом вигідніше') }}:</p>
+
+        <div class="us-product-set__product">
+            <div class="us-product-set__product__image">
+                {% include '@components/image.twig' with {
+                    'class': 'us-product-set__product__image__img',
+                    'image': current.image
+                } %}
+            </div>
+            <p class="us-product-set__product__title">{{ current.title|e('html') }}</p>
+            <div class="us-product-set__product__price">
+                {% if current.old_price %}
+                    <span class="us-product-set__product__price-old">{{ format_price(current.old_price) }}</span>
+                {% endif %}
+                <span class="us-product-set__product__price-current">{{ format_price(current.price) }}</span>
+            </div>
+        </div>
+
+        <div class="us-product-set__plus">{{ svg_icon('plus') }}</div>
+
+        <div class="swiper us-product-set__slider">
+            {% include '@components/button-arrow.twig' with {
+                'version': 'v2',
+                'class': 'us-product-set__slider__prev'
+            } %}
+
+            <div class="swiper-wrapper us-product-set__slider__wrapper">
+                {% for set in sets %}
+                    <div class="swiper-slide us-product-set__slide"
+                         data-us-set-price="{{ set.price }}"
+                         data-us-set-old="{{ set.old_price }}"
+                         data-us-set-url="{{ set.url|e('html_attr') }}">
+                        {% for item in set.items %}
+                            <div class="us-product-set__product">
+                                <div class="us-product-set__product__image">
+                                    {% include '@components/image.twig' with {
+                                        'class': 'us-product-set__product__image__img',
+                                        'image': item.image
+                                    } %}
+                                </div>
+                                <p class="us-product-set__product__title">{{ item.title|e('html') }}</p>
+                                <div class="us-product-set__product__price">
+                                    {% if item.old_price %}
+                                        <span class="us-product-set__product__price-old">{{ format_price(item.old_price) }}</span>
+                                    {% endif %}
+                                    <span class="us-product-set__product__price-current">{{ format_price(item.price) }}</span>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+
+            {% include '@components/button-arrow.twig' with {
+                'version': 'v2',
+                'class': 'us-product-set__slider__next'
+            } %}
+        </div>
+
+        <div class="us-product-set__bottom">
+            <span class="us-product-set__bottom__price__title">{{ pll__('Ціна комплекту') }}:</span>
+
+            <div class="us-product-set__bottom__price">
+                <span class="us-product-set__bottom__price__old" x-show="oldPriceText" x-text="oldPriceText" style="display:none"></span>
+                <span class="us-product-set__bottom__price__total" x-text="priceText"></span>
+            </div>
+
+            <a class="us-product-set__bottom__btn" x-bind:href="url">{{ pll__('Купити комплект') }}</a>
+        </div>
+    </div>
+{% endif %}

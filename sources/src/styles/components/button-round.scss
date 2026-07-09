@@ -1,0 +1,140 @@
+@use '@styles/base/mixins' as *;
+
+.us-button-round {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 50%;
+
+  background-color: transparent;
+  border: none;
+  transition: all var(--unitshot-transition-speed) ease;
+
+  @include media-md() {
+    width: 34px;
+    height: 34px;
+  }
+
+  &--v0 {
+    --button-round-size: 40px;
+    --button-round-icon-size: 20px;
+    --button-round-bg-color: var(--unitshot-accent-pink);
+
+    width: var(--button-round-size);
+    height: var(--button-round-size);
+    background-color: var(--button-round-bg-color);
+
+    svg {
+      width: var(--button-round-icon-size);
+      height: var(--button-round-icon-size);
+    }
+  }
+
+  &--v1 {
+    background-color: var(--unitshot-white);
+    padding-left: 1px;
+    border: 2px solid transparent;
+
+    &:after {
+      content: '';
+      display: block;
+      width: 14px;
+      height: 14px;
+      background-image: none;
+      background-color: var(--unitshot-gray-main);
+      mask-image: url('@images/icons/arrow-dark.svg');
+      mask-repeat: no-repeat;
+      mask-position: center center;
+      mask-size: 100%;
+      transition: all var(--unitshot-transition-speed) ease;
+    }
+
+    &:hover {
+      border-color: var(--unitshot-accent-pink);
+
+      &:after {
+        background-color: var(--unitshot-accent-pink);
+      }
+    }
+  }
+
+  &--v2 {
+    background-color: transparent;
+    padding-left: 1px;
+    border: 2px solid var(--unitshot-accent-pink);
+
+    &:after {
+      content: '';
+      display: block;
+      width: 14px;
+      height: 14px;
+      background-image: none;
+      background-color: var(--unitshot-accent-pink);
+      mask-image: url('@images/icons/arrow-dark.svg');
+      mask-repeat: no-repeat;
+      mask-position: center center;
+      mask-size: 100%;
+      transition: all var(--unitshot-transition-speed) ease;
+    }
+
+    &:hover {
+      background-color: var(--unitshot-white);
+
+      &:after {
+        background-color: var(--unitshot-accent-pink);
+      }
+    }
+  }
+
+  &--v3 {
+    background-color: var(--unitshot-white);
+    padding: 2px;
+    font-size: 16px;
+
+    @include media-md() {
+      font-size: 14px;
+    }
+
+    &:hover {
+      background-color: var(--unitshot-accent-pink);
+      color: var(--unitshot-white);
+    }
+  }
+
+  &--v4 {
+    background-color: transparent;
+    border: 2px solid var(--unitshot-accent-pink);
+    padding: 2px;
+    font-size: 16px;
+    @include font-ppneue-medium;
+
+    @include media-md() {
+      font-size: 14px;
+    }
+
+    &:hover {
+      background-color: var(--unitshot-accent-pink);
+      color: var(--unitshot-white);
+    }
+  }
+
+  &--v5 {
+    background-color: transparent;
+    padding: 2px;
+    font-size: 16px;
+    color: var(--unitshot-white);
+    @include font-ppneue-medium;
+
+    @include media-md() {
+      font-size: 14px;
+    }
+
+    &:hover {
+      background-color: var(--unitshot-accent-pink);
+    }
+  }
+}

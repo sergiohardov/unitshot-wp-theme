@@ -1,0 +1,27 @@
+{# TODO: сделать проверку на существование categories, если пусто то не отрисовывать макет, затем в blocks/category-showcase убрать условие if на отрисовку этого компонента #}
+{% extends '@layouts/slider.twig' %}
+
+{% set class = 'us-slider-categories' %}
+{% set swiper_options = {
+    "loop": true,
+    "slidesPerView": 3,
+    "spaceBetween": 20,
+    "breakpoints": {
+        769: { "slidesPerView": 4 },
+        993: { "slidesPerView": 5 },
+    }
+} %}
+
+{% block slides %}
+    {% for category in categories %}
+        <div class="swiper-slide us-slider-categories__slide">
+            <a class="us-slider-categories__link" href="{{ category.link }}">
+                {% include '@components/image.twig' with {
+                    'class': 'us-slider-categories__img',
+                    'image': category.image
+                } %}
+                <span class="us-slider-categories__title">{{ category.title }}</span>
+            </a>
+        </div>
+    {% endfor %}
+{% endblock %}

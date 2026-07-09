@@ -1,0 +1,25 @@
+@use '@styles/base/mixins' as *;
+
+.us-category-showcase {
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+
+    @include media-md() {
+      gap: 12px;
+    }
+  }
+
+  &__link {
+    display: block;
+  }
+
+  &__title {
+    transition: var(--unitshot-transition-speed);
+
+    &:hover {
+      color: var(--unitshot-accent-pink);
+    }
+  }
+}

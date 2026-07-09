@@ -1,0 +1,102 @@
+@use '@styles/base/mixins' as *;
+
+.us-button-square {
+  min-height: 34px;
+  min-width: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: self-start;
+  flex-shrink: 0;
+  transition: all var(--unitshot-transition-speed) ease;
+  @include font-ppneue-medium;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &--v1, &--v2, &--v3, &--v4 {
+    font-size: 16px;
+    border-radius: 6px;
+  }
+
+  &--v1 {
+    background-color: var(--unitshot-accent-pink);
+    padding: 6px 33px;
+    color: var(--unitshot-white);
+
+    &:hover {
+      background-color: var(--unitshot-gray-main);
+    }
+  }
+
+  &--v2 {
+    background-color: var(--unitshot-gray-main);
+    padding: 6px 33px;
+    color: var(--unitshot-white);
+  }
+
+  &--v3 {
+    border: 2px solid var(--unitshot-accent-pink);
+    padding: 4px 33px;
+    color: var(--unitshot-gray-main);
+
+    &:hover {
+      border-color: var(--unitshot-gray-main);
+    }
+  }
+
+  &--v4 {
+    border: 2px solid var(--unitshot-gray-main);
+    padding: 4px 33px;
+    color: var(--unitshot-gray-main);
+  }
+
+  &--v5, &--v6, &--v7 {
+    font-size: 18px;
+    padding: 6px 12px;
+    border-radius: 4px;
+
+    @include media-md() {
+      font-size: 16px;
+      padding: 5.5px 8px;
+      min-height: 30px;
+      min-width: 30px;
+    }
+  }
+
+  &--v5 {
+    color: var(--unitshot-white);
+    background-color: var(--unitshot-accent-pink);
+  }
+
+  &--v6 {
+    color: var(--unitshot-white);
+    background-color: var(--unitshot-gray-main);
+
+    &:hover {
+      background-color: var(--unitshot-accent-pink);
+      color: var(--unitshot-white);
+    }
+  }
+
+  &--v7 {
+    background-color: transparent;
+    box-shadow: 0 0 0 1.5px var(--unitshot-gray-darker) inset; // Вместо border что бы не ломать высоту
+    color: var(--unitshot-gray-main);
+
+    &:hover {
+      background-color: var(--unitshot-accent-pink);
+      color: var(--unitshot-white);
+      box-shadow: 0 0 0 1.5px var(--unitshot-accent-pink) inset; // Вместо border что бы не ломать высоту
+    }
+  }
+
+  &--link-disabled,
+  &:disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+    background-color: var(--unitshot-gray-darker);
+    color: var(--unitshot-gray-dark);
+  }
+}

@@ -1,0 +1,91 @@
+@use '@styles/base/mixins' as *;
+
+.us-slider-categories {
+  &__slide {
+    position: relative;
+    padding-bottom: 44px;
+
+    @include media-md {
+      padding-bottom: 0;
+    }
+
+    &:hover:before {
+      scale: 1;
+    }
+
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      aspect-ratio: 1;
+      background-color: var(--unitshot-accent-pink);
+      opacity: 1;
+      border-radius: 50%;
+      scale: 0;
+      transition: var(--unitshot-transition-speed-slowly);
+    }
+  }
+
+  &__link {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    aspect-ratio: 1;
+    z-index: 1;
+
+    @include media-md() {
+      padding-bottom: 15px;
+    }
+  }
+
+  &__img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: contain;
+  }
+
+  &__title {
+    text-align: center;
+    font-size: 26px;
+    color: var(--unitshot-gray-main);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+
+    @include font-suisse-semibold;
+
+    @include media-md {
+      font-size: 14px;
+    }
+
+    @media (max-width: 1220px) {
+      font-size: 18px;
+    }
+  }
+
+  // Так как слайдер имеет loop=true то это единственный класс который дает возможность убрать стрелки если недостаточно слайдов для прокрутки
+  .us-slider__navigation--lock {
+    display: none;
+  }
+
+  .us-slider__prev, .us-slider__next {
+    @include media-md() {
+      display: none;
+    }
+  }
+
+  .us-slider__pagination {
+    display: none;
+
+    @include media-md() {
+      display: flex;
+      margin-top: 12px;
+    }
+  }
+}

@@ -1,0 +1,100 @@
+@use '@styles/base/mixins' as *;
+
+.us-brand-logos {
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 20px;
+
+    /* ВАЖНО: Если появится вертикальный отступ, тг задавать его
+       не через row-gap, а через padding/margin внутри __item,
+       чтобы он тоже мог плавно анимироваться в 0. */
+
+    @include media-md() {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    &--collapsed {
+      @include min-media-md() {
+        li:nth-child(n+13) {
+          grid-template-rows: 0fr;
+          opacity: 0;
+          padding-top: 0; // Обнуляем вертикальные отступы, если они есть
+          padding-bottom: 0;
+        }
+      }
+
+      @include media-md() {
+        li:nth-child(n+16) {
+          grid-template-rows: 0fr;
+          opacity: 0;
+          padding-top: 0; // Обнуляем вертикальные отступы, если они есть
+          padding-bottom: 0;
+        }
+      }
+    }
+  }
+
+  &__item {
+    display: grid;
+    grid-template-rows: 1fr;
+    transition: grid-template-rows var(--unitshot-transition-speed) ease,
+    opacity var(--unitshot-transition-speed) ease,
+    padding var(--unitshot-transition-speed) ease;
+    opacity: 1;
+
+    position: relative;
+
+    &:hover {
+     &:before {
+       scale: 1;
+     }
+    }
+
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--unitshot-accent-pink);
+      border-radius: 50%;
+      scale: 0;
+      z-index: 1;
+      transition: var(--unitshot-transition-speed-slowly);
+    }
+
+    &-link {
+      min-height: 0;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    }
+
+    &-image {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  &__more {
+    display: none;
+    justify-content: flex-end;
+
+    &--12 {
+      @include min-media-md() {
+        display: flex;
+      }
+    }
+
+    &--15 {
+      @include media-md() {
+        display: flex;
+      }
+    }
+  }
+}

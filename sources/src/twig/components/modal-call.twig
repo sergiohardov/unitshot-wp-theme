@@ -1,0 +1,28 @@
+{% extends '@layouts/modal.twig' %}
+
+{% set id = 'us-modal-call' %}
+{% set class = 'us-modal-call' %}
+{% set modify = 'normal' %}
+{% set data = null %}
+{% set x_data = "ModalCallComponent" %}
+{% set title = pll__('Оформлення зворотнього дзінка') %}
+
+{% block body %}
+    <form class="us-modal-call__form" id="us-modal-call-form" x-show="!isSended">
+        <input class="us-modal-call__input" name="phone" type="text" placeholder="{{ pll__('Номер телефону') }}" x-model="formData.phone" x-bind:class="{ 'us-modal-call__input--error': errors.phone }">
+        <input class="us-modal-call__input" name="username" type="text" placeholder="{{ pll__('Ім’я') }}" x-model="formData.username" x-bind:class="{ 'us-modal-call__input--error': errors.username }">
+        <textarea class="us-modal-call__textarea" name="comment" placeholder="{{ pll__('Коментар до замовлення') }}" cols="30" rows="10" x-model="formData.comment"></textarea>
+    </form>
+
+    {# Видимостью полностью управляет x-show (без класса --hidden, иначе он перебивает x-show). #}
+    <div class="us-modal-call__message" id="us-modal-call-message" x-show="isSended" x-cloak>
+        <p>{{ pll__('Замовлення оформлене.') }}</p>
+        <p>{{ pll__('Наш менеджер зв’яжеться з вами за декілька хвилин!') }}</p>
+    </div>
+{% endblock %}
+
+{% block footer %}
+    <button type="button" class="us-button-square us-button-square--v3 us-modal-call__submit"
+            x-on:click="submit"
+            x-text="isSended ? '{{ pll__('Зрозуміло')|e('js') }}' : (isLoading ? '{{ pll__('Відправка...')|e('js') }}' : '{{ pll__('Передзвоніть мені')|e('js') }}')"></button>
+{% endblock %}

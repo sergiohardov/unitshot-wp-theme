@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="{{ get_current_lang() }}">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<head>{{ function('wp_head') }}</head>
+
+<body>
+{{ header() }}
+
+<main>{% block content %}{% endblock %}</main>
+
+{{ footer() }}
+
+{% include '@components/modal-call.twig' %}
+{% include '@components/modal-cart.twig' %}
+{% include '@components/modal-lang.twig' %}
+
+{{ function('wp_footer') }}
+
+</body>
+</html>

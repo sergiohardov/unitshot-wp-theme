@@ -1,0 +1,72 @@
+{% extends '@layouts/base.twig' %}
+
+{% block content %}
+
+    <div class="us-page-contact" x-data="ContactPage">
+        <div class="us-container">
+            <div class="us-page-contact__inner">
+                {% include '@components/breadcrumbs.twig' with {
+                    'links': breadcrumbs
+                } %}
+
+                <div class="us-page-contact__content">
+                    <div class="us-page-contact__text">
+                        {% include '@components/page-title.twig' with {
+                            'title': title,
+                            'class': 'us-page-contact__text__title'
+                        } %}
+
+                        {% if description %}
+                            <div class="us-page-contact__text__description">
+                                {{ description|raw }}
+                            </div>
+                        {% endif %}
+
+                        {% if contacts %}
+                            <div class="us-page-contact__text__contacts">
+                                {% for item in contacts %}
+                                    <div class="us-page-contact__text__contacts__item">
+                                        <p class="us-page-contact__text__contacts__title">{{ item.title }}:</p>
+                                        {% if item.type == 'text' %}
+                                            <div class="us-page-contact__text__contacts__text">{{ item.content|raw }}</div>
+                                        {% elseif item.type == 'email' and item.email %}
+                                            <div class="us-page-contact__text__contacts__text"><a href="mailto:{{ item.email }}">{{ item.email }}</a></div>
+                                        {% elseif item.type == 'number' %}
+                                            <div class="us-page-contact__text__contacts__numbers" x-data>
+                                                {% if item.numbers %}
+                                                    {% for number in item.numbers %}
+                                                        {% include '@components/phone-number.twig' with {
+                                                            'number': number
+                                                        } %}
+                                                    {% endfor %}
+                                                {% endif %}
+
+                                                {% include '@components/button-square.twig' with {
+                                                    'version': 'v2',
+                                                    'class': 'us-page-contact__text__contacts__numbers__btn',
+                                                    'text': pll__('Замовити дзвінок'),
+                                                    'x_click': "$store.ModalStore.open('us-modal-call')"
+                                                } %}
+                                            </div>
+                                        {% elseif item.type == 'socials' %}
+                                            <div class="us-page-contact__text__contacts__socials">
+                                                {% if item.socials %}
+                                                    {% for social in item.socials %}
+                                                        <a href="{{ social.link }}" target="_blank" rel="noopener noreferrer">{{ svg_icon(social.icon) }}</a>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% if map.api and map.zoom %}
+                        <div class="us-page-contact__map" data-map-api="{{ map.api }}" data-map-zoom="{{ map.zoom }}" data-map-lat="{{ map.lat }}" data-map-lng="{{ map.lng }}"></div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

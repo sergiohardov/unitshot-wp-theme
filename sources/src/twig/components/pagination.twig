@@ -1,0 +1,37 @@
+{% if pages %}
+    <ul class="us-pagination {{ class }}">
+        <li>
+            {% include '@components/button-arrow.twig' with {
+                'type': 'link',
+                'version': 'v2',
+                'class': 'us-pagination__prev',
+                'link': prev
+            } %}
+        </li>
+
+        {% for page in pages %}
+            <li>
+                {% if page.is_ellipsis %}
+                    <span class="us-pagination__ellipsis">…</span>
+                {% else %}
+                    {% include '@components/button-round.twig' with {
+                        'class': '',
+                        'type': 'link',
+                        'version': page.is_current ? 'v3' : 'v4',
+                        'text': page.number,
+                        'link': page.link
+                    } %}
+                {% endif %}
+            </li>
+        {% endfor %}
+
+        <li>
+            {% include '@components/button-arrow.twig' with {
+                'type': 'link',
+                'version': 'v2',
+                'class': 'us-pagination__next',
+                'link': next
+            } %}
+        </li>
+    </ul>
+{% endif %}

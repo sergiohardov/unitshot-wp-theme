@@ -1,0 +1,89 @@
+name: Release Theme
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  release:
+    # Разворачивает Ubuntu
+    name: Create Theme Release
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Разворачивает файлы текущей ветки (main)
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.TOKEN }}
+
+      # 2. Настраивает окружение Node.js & PHP
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          tools: composer
+
+      # 3. Устанавливает зависимости и собирает проект
+      - name: Install dependencies and Build
+        run: |
+         cd sources
+         npm i
+         npm run build
+         cd ../app/sources
+         npm i
+         npm run build
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer install --no-dev --prefer-dist
+
+      # 3. Подготовка файлов
+      - name: Create Theme Directory and Move Files
+        run: |
+          rm -rf .git .github .gitignore composer.json composer.lock sources tools app/sources
+          mkdir unitshot-theme
+          shopt -s dotglob
+          mv * unitshot-theme/ || true
+
+      # 4. Создание архива
+      - name: Prepare Theme Zip
+        run: |
+          zip -r unitshot-theme.zip unitshot-theme
+
+      # 5. Создание релиза
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1.1.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+
+      # 6. Загрузка собраного архива
+      - name: Upload Release Asset
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ./unitshot-theme.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}

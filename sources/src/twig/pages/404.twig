@@ -1,0 +1,14 @@
+{% extends '@layouts/base.twig' %}
+
+{% block content %}
+    <div class="us-page-404">
+        <div class="us-container">
+            <div class="us-page-404__inner">
+                <div class="us-page-404__code">404</div>
+                <h1 class="us-page-404__title">{{ pll__('Сторінку не знайдено') }}</h1>
+                <p class="us-page-404__text">{{ pll__('Можливо, сторінку видалено або адресу введено з помилкою.') }}</p>
+                <a class="us-page-404__btn" href="{{ function('pll_home_url') }}">{{ pll__('На головну') }}</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

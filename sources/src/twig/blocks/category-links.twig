@@ -1,0 +1,51 @@
+<div class="us-category-links" id="{{ block_id }}">
+    <div class="us-container">
+        <div class="us-category-links__inner">
+            {% include '@components/page-title.twig' with {
+                'title': title
+            } %}
+
+            {% if categories %}
+                <div class="us-category-links__list">
+                    {% for category in categories %}
+                        <div class="us-category-links__item">
+                            <div class="us-category-links__item-image">
+                                {% include '@components/image.twig' with {
+                                    'image': category.image
+                                } %}
+                            </div>
+
+                            <div class="us-category-links__item-text">
+                                {% if category.title %}
+                                    <h3 class="us-category-links__item-title">{{ category.title }}</h3>
+                                {% endif %}
+
+                                {% if category.brands %}
+                                    <div class="us-category-links__item-brands">
+                                        {% for brand in category.brands %}
+                                            <a href="{{ brand.link }}">
+                                                {% include '@components/image.twig' with {
+                                                    'image': brand.image
+                                                } %}
+                                            </a>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+
+                                {% if category.link %}
+                                    {% include '@components/button-square.twig' with {
+                                        'version': 'v1',
+                                        'text': pll__('Перейти'),
+                                        'type': 'link',
+                                        'href': category.link,
+                                        'class': 'us-category-links__item-link'
+                                    } %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,7 @@
+<div class="us-checkbox {{ class }}">
+    <input type="checkbox" class="us-checkbox__input" id="{{ id }}" name="{{ name }}" value="{{ value }}" {% if checked %}checked{% endif %}>
+
+    {% if label %}
+        <label for="{{ id }}" class="us-checkbox__label">{{ label }}</label>
+    {% endif %}
+</div>

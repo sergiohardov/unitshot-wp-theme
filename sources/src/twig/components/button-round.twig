@@ -1,0 +1,21 @@
+{% if type == 'link' %}
+    <a href="{{ link }}"
+            class="us-button-round {% if version %} us-button-round--{{ version }} {% endif %} {{ class }} {% if disabled %} us-button-round--link-disabled {% endif %}"
+            {% if x_click %} x-on:click="{{ x_click }}" {% endif %}
+            {% if x_bind_class %} x-bind:class="{{ x_bind_class }}" {% endif %}
+            {{ data }}
+    >
+        {% if text %}{{ text }}{% endif %}
+        {% if icon %}{{ svg_icon(icon) }}{% endif %}
+    </a>
+{% else %}
+    <button class="us-button-round {% if version %} us-button-round--{{ version }} {% endif %} {{ class }}"
+            {% if disabled %} disabled {% endif %}
+            {% if x_click %} x-on:click="{{ x_click }}" {% endif %}
+            {% if x_bind_class %} x-bind:class="{{ x_bind_class }}" {% endif %}
+            {{ data }}
+    >
+        {% if text %}{{ text }}{% endif %}
+        {% if icon %}{{ svg_icon(icon) }}{% endif %}
+    </button>
+{% endif %}

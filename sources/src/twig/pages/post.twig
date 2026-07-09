@@ -1,0 +1,38 @@
+{% extends '@layouts/base.twig' %}
+
+{% block content %}
+    <div class="us-page-post">
+        <div class="us-container">
+            <div class="us-page-post__inner">
+                {% include '@components/breadcrumbs.twig' with {
+                    'links': breadcrumbs,
+                    'class': 'us-page-post__breadcrumbs'
+                } %}
+
+                {% if title %}
+                    <div class="us-page-post__content">
+                        {% include '@components/page-title.twig' with {
+                            "title": title,
+                            'class': 'us-page-post__content__title'
+                        } %}
+
+                        {% if date %}
+                            <p class="us-page-post__content__date">{{ date }}</p>
+                        {% endif %}
+
+                        {% if content %}
+                            <div class="us-page-post__content__text">{{ content|raw }}</div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+
+                {% if more_posts %}
+                    {% include '@blocks/slider-posts.twig' with {
+                        'title': pll__('Читати більше'),
+                        'posts': more_posts
+                    } %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

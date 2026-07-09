@@ -1,0 +1,15 @@
+{% if products %}
+    <div class="us-popular-products" id="{{ block_id }}">
+        <div class="us-container">
+            <div class="us-popular-products__inner">
+                {% include '@components/page-title.twig' with {
+                    'title': title
+                } %}
+
+                {% include '@components/slider-product-cards.twig' with {
+                    'products': products
+                } %}
+            </div>
+        </div>
+    </div>
+{% endif %}

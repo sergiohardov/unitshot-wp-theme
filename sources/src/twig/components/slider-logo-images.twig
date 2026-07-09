@@ -1,0 +1,26 @@
+{# TODO: сделать проверку на существование logotypes, если пусто то не отрисовывать макет, затем в blocks/category-showcase убрать условие if на отрисовку этого компонента #}
+{% extends '@layouts/slider.twig' %}
+
+{% set class = 'us-slider-logo-images' %}
+{% set swiper_options = {
+    "loop": true,
+    "slidesPerView": 3,
+    "spaceBetween": 20,
+    "breakpoints": {
+        769: { "slidesPerView": 5 },
+        993: { "slidesPerView": 7 }
+    }
+} %}
+
+{% block slides %}
+    {% for logo in logotypes %}
+        <div class="swiper-slide">
+            <a class="us-slider-logo-images__link" href="{{ logo.link }}">
+                {% include '@components/image.twig' with {
+                    'class': 'us-slider-logo-images__img',
+                    'image': logo.image
+                } %}
+            </a>
+        </div>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,27 @@
+{# Внутри блока slides нужно оборачивать каждый слайд в <div class="swiper-slide"> #}
+
+<div class="us-slider {{ class }}" id="{{ id }}" x-data='SliderLayout({{ swiper_options|default({})|json_encode }})'>
+    {% block before_slider %}{% endblock %}
+
+    <div class="us-slider__container">
+        {% include '@components/button-arrow.twig' with {
+            'version': 'v2',
+            'class': 'us-slider__prev'
+        } %}
+
+        <div class="swiper us-slider__slider">
+            <div class="swiper-wrapper">
+                {% block slides %}{% endblock %}
+            </div>
+        </div>
+
+        {% include '@components/button-arrow.twig' with {
+            'version': 'v2',
+            'class': 'us-slider__next'
+        } %}
+    </div>
+
+    <div class="us-slider__pagination"></div>
+
+    {% block after_slider %}{% endblock %}
+</div>

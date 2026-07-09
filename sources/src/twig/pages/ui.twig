@@ -1,0 +1,136 @@
+{% extends '@layouts/demo.twig' %}
+
+{% block content %}
+    <div class="ui-kit">
+
+        {# Кнопка сворачивания сайдбара (desktop) #}
+        <button class="ui-sidebar-toggle" id="uiSidebarToggle" aria-label="Свернуть меню">
+            <span class="ui-sidebar-toggle__arrow">◀</span>
+        </button>
+
+        <aside class="ui-sidebar" id="uiSidebar">
+            <div class="ui-sidebar__logo">UI KIT</div>
+            <nav class="ui-sidebar__nav">
+                <a href="#colors" class="ui-sidebar__link">Цвета</a>
+                <a href="#typography" class="ui-sidebar__link">Типографика</a>
+                <a href="#components" class="ui-sidebar__link">Компоненты</a>
+                <a href="#blocks" class="ui-sidebar__link">Блоки</a>
+                <a href="#pages" class="ui-sidebar__link">Страницы</a>
+            </nav>
+            <div class="ui-sidebar__version">v1.0.0</div>
+        </aside>
+
+        <div class="ui-main">
+
+            <header class="ui-header">
+                <div class="ui-header__label">Design System</div>
+                <h1 class="ui-header__title">UI Kit</h1>
+                <p class="ui-header__sub">Компоненты, блоки, и стили проекта</p>
+            </header>
+
+            <section class="ui-section" id="colors">
+                <div class="ui-section__head">
+                    <span class="ui-section__num">01</span>
+                    <h2 class="ui-section__title">Цвета</h2>
+                </div>
+
+                <div class="ui-colors">
+                    {% for color in colors %}
+                        <div class="ui-color-group">
+                            <div class="ui-color-swatch" style="background-color: var({{ color.var }})"></div>
+                            <div class="ui-color-info">
+                                <span class="ui-color-name">{{ color.name }}</span>
+                                <span class="ui-color-var">{{ color.var }}</span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <section class="ui-section" id="typography">
+                <div class="ui-section__head">
+                    <span class="ui-section__num">02</span>
+                    <h2 class="ui-section__title">Типографика</h2>
+                </div>
+
+                <div class="ui-typo">
+                    {% for font in fonts %}
+                        {% for weight in font.weights %}
+                            <div class="ui-typo-row">
+                                <span class="ui-typo-label">{{ font.name }} / {{ weight }}</span>
+                                <p class="ui-typo-sample ui-typo-sample--{{ weight }}">Example Text</p>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            </section>
+
+            <section class="ui-section" id="components">
+                <div class="ui-section__head">
+                    <span class="ui-section__num">03</span>
+                    <h2 class="ui-section__title">Компоненты</h2>
+                </div>
+                <ul class="ui-links-list">
+                    {% for item in components %}
+                        <li><a href="/components/{{ item }}.html">{{ item }}</a></li>
+                    {% endfor %}
+                </ul>
+            </section>
+
+            <section class="ui-section" id="blocks">
+                <div class="ui-section__head">
+                    <span class="ui-section__num">04</span>
+                    <h2 class="ui-section__title">Блоки</h2>
+                </div>
+                <ul class="ui-links-list">
+                    {% for item in blocks %}
+                        <li><a href="/blocks/{{ item }}.html">{{ item }}</a></li>
+                    {% endfor %}
+                </ul>
+            </section>
+
+            <section class="ui-section" id="pages">
+                <div class="ui-section__head">
+                    <span class="ui-section__num">05</span>
+                    <h2 class="ui-section__title">Страницы</h2>
+                </div>
+                <ul class="ui-links-list">
+                    {% for item in pages %}
+                        <li><a href="/pages/{{ item }}.html">{{ item }}</a></li>
+                    {% endfor %}
+                </ul>
+            </section>
+
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            const kit = document.querySelector('.ui-kit');
+            const sidebar = document.getElementById('uiSidebar');
+            const toggleBtn = document.getElementById('uiSidebarToggle');
+            const isMobile = function () {
+                return window.innerWidth <= 768;
+            };
+
+            // Desktop: сворачивание сайдбара
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function () {
+                    kit.classList.toggle('sidebar-collapsed');
+                });
+            }
+
+            function closeSidebar() {
+                sidebar.classList.remove('is-open');
+            }
+
+
+            // Закрытие по клику на ссылку (мобилка)
+            sidebar.querySelectorAll('.ui-sidebar__link').forEach(function (link) {
+                link.addEventListener('click', function () {
+                    if (isMobile()) closeSidebar();
+                });
+            });
+        })();
+    </script>
+{% endblock %}

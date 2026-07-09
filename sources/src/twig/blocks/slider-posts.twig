@@ -1,0 +1,45 @@
+{% extends '@layouts/slider.twig' %}
+
+{% set class = 'us-slider-posts' %}
+{% set id = block_id %}
+{% set swiper_options = {
+    "loop": true,
+    "slidesPerView": 1.5,
+    "breakpoints": {
+        769: { "slidesPerView": 2 },
+        993: { "slidesPerView": 3 }
+    }
+} %}
+
+{% block before_slider %}
+<div class="us-container">
+    {% include '@components/page-title.twig' with {
+        'title': title,
+        'class': 'us-slider-posts__title'
+    } %}
+    {% endblock %}
+
+    {% block slides %}
+        {% for post in posts %}
+            <div class="swiper-slide">
+                <div class="us-slider-posts__slide">
+                    <div class="us-slider-posts__slide-image">
+                        {% include '@components/image.twig' with {
+                            'image': post.image
+                        } %}
+                    </div>
+
+                    <div class="us-slider-posts__slide-text">
+                        <p class="us-slider-posts__slide-date">{{ post.date }}</p>
+                        <a href="{{ post.link }}" class="us-slider-posts__slide-title">{{ post.title }}</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endblock %}
+
+    {% block after_slider %}
+</div>
+{% endblock %}
+
+

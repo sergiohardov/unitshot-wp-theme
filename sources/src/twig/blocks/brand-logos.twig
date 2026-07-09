@@ -1,0 +1,24 @@
+{% if brands %}
+    <div class="us-brand-logos" id="{{ block_id }}" x-data="{ expanded: false }">
+        <div class="us-container">
+            <ul class="us-brand-logos__list" x-bind:class="{ 'us-brand-logos__list--collapsed': !expanded }">
+                {% for brand in brands %}
+                    <li class="us-brand-logos__item">
+                        <a class="us-brand-logos__item-link" href="{{ brand.link }}">
+                            {% include '@components/image.twig' with {
+                                'class': 'us-brand-logos__item-image',
+                                'image': brand.logo
+                            } %}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <div class="us-brand-logos__more {% if brands|length > 12 %} us-brand-logos__more--12 {% endif %} {% if brands|length > 15 %} us-brand-logos__more--15 {% endif %}">
+                {% include '@components/button-show-more.twig' with {
+                    'x_model': 'expanded'
+                } %}
+            </div>
+        </div>
+    </div>
+{% endif %}

@@ -1,0 +1,10 @@
+{% if number %}
+    <a class="us-phone-number {{ class }}"
+       x-data="{ revealed: false }"
+       x-bind:href="revealed ? 'tel:{{ number }}' : null"
+       x-on:click="if (!revealed) { $event.preventDefault(); revealed = true; }">
+
+        <span x-text="revealed ? '{{ number }}' : '{{ number|slice(0, 6) }}'">{{ number|slice(0, 6) }}</span>
+        <span class="us-phone-number__show-btn" x-show="!revealed">[{{ pll__('Показати номер') }}]</span>
+    </a>
+{% endif %}

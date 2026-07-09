@@ -1,0 +1,11 @@
+{% if settings %}
+    <div class="us-site-settings {{ class }}">
+        {% for setting in settings %}
+            <div class="us-site-settings__item">
+                {% for item in setting %}
+                    <a href="{{ item.link }}" class="us-site-settings__title {% if item.is_current %} us-site-settings__title--current {% endif %}">{{ item.title }}</a>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}

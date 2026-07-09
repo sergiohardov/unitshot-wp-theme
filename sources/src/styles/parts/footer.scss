@@ -1,0 +1,195 @@
+@use '@styles/base/mixins' as *;
+
+.us-footer {
+  background-color: var(--unitshot-gray-main);
+  padding: 32px 0;
+
+  &__inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 50px;
+    flex-wrap: wrap;
+
+    @include media-md() {
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+    }
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    height: 34px;
+    flex-shrink: 0;
+
+    @include media-lg() {
+      width: 100%;
+    }
+
+    @include media-md() {
+      justify-content: center;
+      height: 27px;
+    }
+
+    &__img {
+      max-width: 100%;
+      height: 100%;
+    }
+
+    p {
+      text-transform: uppercase;
+      font-size: 30px;
+      color: var(--unitshot-gray-light);
+      @include font-suisse-bold;
+
+      @include media-md() {
+        font-size: 22px;
+      }
+    }
+  }
+
+  &__nav {
+    &-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+      @include media-md() {
+        align-items: center;
+        gap: 8px;
+      }
+    }
+
+    &-link {
+      color: var(--unitshot-gray-light);
+      font-size: 16px;
+      @include font-suisse-medium;
+      transition: var(--unitshot-transition-speed);
+
+      &:hover {
+        color: var(--unitshot-accent-pink);
+      }
+
+      @include media-md() {
+        font-size: 14px;
+      }
+    }
+  }
+
+  &__contact {
+    display: flex;
+    flex-direction: column;
+
+    &-content {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+
+      @include media-md() {
+        gap: 20px;
+      }
+    }
+
+    &-phones {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      @include media-md() {
+        align-items: center;
+      }
+
+      .us-phone-number {
+        color: var(--unitshot-gray-light);
+        font-size: 16px;
+
+        @include media-md() {
+          font-size: 14px;
+        }
+      }
+    }
+
+    // TODO: Не единый стиль кнопок
+    &-btn {
+      padding: 2px 4px;
+      height: 34px;
+      width: 100%;
+      background-color: var(--unitshot-gray-light);
+      border-radius: 6px;
+      color: var(--unitshot-gray-main);
+      font-size: 16px;
+      @include font-suisse-medium;
+      transition: var(--unitshot-transition-speed);
+
+      &:hover {
+        background-color: var(--unitshot-accent-pink);
+      }
+
+      @include media-md() {
+        font-size: 14px;
+      }
+    }
+
+    &-social {
+      display: flex;
+      gap: 10px;
+
+      @include media-md() {
+        justify-content: center;
+      }
+
+      &__link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+          scale: 1.1;
+        }
+
+        svg {
+          height: 34px;
+          width: 34px;
+          object-fit: contain;
+          transition: var(--unitshot-transition-speed);
+        }
+      }
+    }
+
+    &-email {
+      color: var(--unitshot-gray-light);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 16px;
+      @include font-suisse-medium;
+
+      @include media-md() {
+        align-items: center;
+        font-size: 14px;
+      }
+    }
+
+    &-email-link {
+      transition: var(--unitshot-transition-speed);
+
+      &:hover {
+        color: var(--unitshot-accent-pink);
+      }
+    }
+  }
+
+  &__title {
+    color: var(--unitshot-gray-light);
+    margin-bottom: 16px;
+    font-size: 20px;
+    @include font-suisse-semibold;
+
+    @include media-md() {
+      font-size: 18px;
+      text-align: center;
+    }
+  }
+}

@@ -1,0 +1,227 @@
+<header class="us-header" x-data="HeaderPart">
+    <div class="us-header__overlay" x-bind:class="{ 'us-header__overlay--visible': isOverlayActive }" x-on:click="closeAll"></div>
+
+    <div class="us-header__line">
+        <div class="us-container">
+            <div class="us-header__line__inner">
+                <div class="us-header__line__top">
+                    <a href="{{ home_url() }}" class="us-header__line__logo">
+                        {% if logo.src %}
+                            <img src="{{ logo.src }}" alt="{{ logo.alt }}">
+                        {% else %}
+                            <p>{{ home_name() }}</p>
+                        {% endif %}
+                    </a>
+
+                    <div class="us-header__line__top-right">
+                        {% include '@components/site-settings.twig' with {
+                            'class': 'us-header__line__settings',
+                            'settings': settings
+                        } %}
+
+                        <div class="us-header__line__buttons">
+                            {% include '@components/button-round.twig' with {
+                                'version': 'v0',
+                                'text': '',
+                                'class': 'us-header__line__buttons__item us-header__line__buttons__item--burger',
+                                'x_click': 'toggleMenu',
+                                'x_bind_class': "{ 'us-header__line__buttons__item--burger--active': isMenuOpen }"
+                            } %}
+
+                            {% include '@components/button-round.twig' with {
+                                'version': 'v0',
+                                'text': '',
+                                'icon': 'search',
+                                'class': 'us-header__line__buttons__item us-header__line__buttons__item--search',
+                                'x_click': 'toggleSearch'
+                            } %}
+
+                            <div class="us-header__line__buttons__cart-wrap">
+                                {% include '@components/button-round.twig' with {
+                                    'version': 'v0',
+                                    'text': '',
+                                    'icon': 'cart',
+                                    'class': 'us-header__line__buttons__item us-header__line__buttons__item--cart',
+                                    'x_click': "$store.ModalStore.open('us-modal-cart')"
+                                } %}
+                                <span class="us-header__line__buttons__cart-count" x-show="$store.cart.count > 0" x-text="$store.cart.count" x-cloak></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="us-header__line__bottom">
+                    <nav class="us-header__line__nav">
+                        {% if categories or brands %}
+                            <button class="us-header__line__nav__burger" x-bind:class="{ 'us-header__line__nav__burger--active': isMenuOpen }" x-on:click="toggleMenu"></button>
+                        {% endif %}
+
+                        {% if top_menu %}
+                            <ul class="us-header__line__menu">
+                                {% for item in top_menu %}
+                                    <li class="us-header__line__menu__item {% if item.submenu %}us-header__line__menu__item--has-children{% endif %}">
+                                        <a href="{{ item.link }}" class="us-header__line__menu__link">
+                                            {{ item.title }}
+                                            {% if item.submenu %}<span class="us-header__line__menu__arrow"></span>{% endif %}
+                                        </a>
+
+                                        {% if item.submenu %}
+                                            <div class="us-header__line__menu__dropdown">
+                                                <ul class="us-header__line__menu__sublist">
+                                                    {% for sub in item.submenu %}
+                                                        <li><a href="{{ sub.link }}" class="us-header__line__menu__sublist-item">{{ sub.title }}</a></li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </nav>
+
+                    <div class="us-header__line__number">
+                        {% include '@components/phone-number.twig' with {
+                            'number': number,
+                            'class': 'us-header__line__number__phone'
+                        } %}
+
+                        {% if socials %}
+                            <button class="us-header__line__number__arrow"></button>
+
+                            <div class="us-header__line__number__menu">
+                                <ul class="us-header__line__number__list">
+                                    {% for social in socials %}
+                                        <li>
+                                            <a class="us-header__line__number__list-item" href="{{ social.link }}" target="_blank" rel="noopener noreferrer">
+                                                {{ svg_icon(social.icon) }}
+                                                <span>{{ social.title }}</span>
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="us-header__menu" x-bind:class="{ 'us-header__menu--visible': isMenuOpen }">
+        <div class="us-container">
+            <div class="us-header__menu__inner">
+                {% include '@components/site-settings.twig' with {
+                    'class': 'us-header__menu__settings',
+                    'settings': settings
+                } %}
+
+                {% if categories %}
+                    <div class="us-header__menu__navigation">
+                        <ul class="us-header__menu__list">
+                                {% for category in categories %}
+                                    <li class="us-header__menu__list__item {% if loop.first %} us-header__menu__list__item--active {% endif %}"
+                                        x-bind:class="{ 'us-header__menu__list__item--active': activeMenuIndex === {{ loop.index0 }} }"
+                                        x-on:mouseenter="hoverMenu({{ loop.index0 }})"
+                                    >
+                                        <div class="us-header__menu__list__item-header">
+                                            <a href="{{ category.link }}" class="us-header__menu__list__nav-link {% if category.is_current %} us-header__menu__list__nav-link--current {% endif %}">{{ category.title }}</a>
+
+                                            {% if category.submenu %}
+                                                <button class="us-header__menu__list__arrow" x-on:click="clickMenuArrow({{ loop.index0 }}, $event)"></button>
+                                            {% endif %}
+                                        </div>
+
+                                        {% if category.submenu %}
+                                            <ul class="us-header__menu__list__subnav">
+                                                {% for item in category.submenu %}
+                                                    <li><a href="{{ item.link }}" class="us-header__menu__list__subnav-link {% if item.is_current %} us-header__menu__list__subnav-link--current {% endif %}">{{ item.title }}</a></li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                    </div>
+                {% endif %}
+
+                {% include '@components/phone-number.twig' with {
+                    'class': 'us-header__menu__number',
+                    'number': number
+                } %}
+
+                {% if brands %}
+                    <div class="us-header__menu__brands" x-data="{ expanded: false }">
+                        <ul class="us-header__menu__brands__list" x-bind:class="{ 'us-header__menu__brands__list--collapsed': !expanded }">
+                            {% for item in brands %}
+                                <li class="us-header__menu__brands__item">
+                                    <a class="us-header__menu__brands__link" href="{{ item.link }}">
+                                        {% include '@components/image.twig' with {
+                                            'image': item.image
+                                        } %}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+
+                        <div class="us-header__menu__brands__more">
+                                {% include '@components/button-show-more.twig' with {
+                                    'x_model': 'expanded'
+                                } %}
+                            </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="us-header__search"
+         x-bind:class="{
+            'us-header__search--active': isSearchOpen,
+            'us-header__search--results': canSearch
+        }"
+    >
+        <div class="us-header__search__container">
+            <div class="us-header__search__input">
+                <input type="text" class="us-header__search__input__field" x-model="searchQuery" x-on:keydown.enter="submitSearch" placeholder="{{ pll__('Пошук товару...') }}">
+                <div class="us-header__search__input__buttons">
+                    <button class="us-header__search__input__buttons__clear" x-on:click="searchQuery = ''">{{ svg_icon('close') }}</button>
+                    <button class="us-header__search__input__buttons__search" x-on:click="submitSearch">{{ svg_icon('search') }}</button>
+                </div>
+            </div>
+            <div class="us-header__search__results" x-bind:class="{ 'us-header__search__results--active': canSearch }">
+                <div class="us-header__search__results__list">
+                    <template x-if="searchLoading">
+                        <p class="us-header__search__results__status">{{ pll__('Пошук...') }}</p>
+                    </template>
+
+                    <template x-if="!searchLoading && searchResults.length === 0">
+                        <p class="us-header__search__results__status">{{ pll__('Нічого не знайдено') }}</p>
+                    </template>
+
+                    <template x-for="item in searchResults" :key="item.url">
+                        <a class="us-header__search__results__item" :href="item.url">
+                            <div class="us-header__search__results__item__image">
+                                <img :src="item.image" :alt="item.title" x-show="item.image">
+                            </div>
+                            <p class="us-header__search__results__item__title" x-text="item.title"></p>
+                            <div class="us-header__search__results__item__prices">
+                                <span class="us-header__search__results__item__price-old" x-show="item.old_price" x-text="item.old_price"></span>
+                                <span class="us-header__search__results__item__price" x-text="item.price"></span>
+                            </div>
+                        </a>
+                    </template>
+                </div>
+                <a class="us-header__search__results__more" :href="searchMoreUrl" x-show="searchResults.length">{{ pll__('Переглянути всі товари') }}</a>
+            </div>
+        </div>
+
+        {% include '@components/button-round.twig' with {
+            'version': 'v0',
+            'text': '',
+            'icon': 'close',
+            'class': 'us-header__search__close',
+            'x_click': 'closeAll'
+        } %}
+    </div>
+</header>
+

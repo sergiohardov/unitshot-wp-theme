@@ -1,0 +1,24 @@
+{% extends '@layouts/modal.twig' %}
+
+{# Показывается RU-посетителю при первом визите: предложение перейти на UA-версию
+   текущей страницы. show/url считает сервер (lang_suggest), открытие и установку
+   cookie «больше не показывать» делает Alpine на init. #}
+{% set suggest = lang_suggest() %}
+
+{% set id = 'us-modal-lang' %}
+{% set class = 'us-modal-lang' %}
+{% set modify = 'normal' %}
+{% set title = pll__('Чи бажаєте переглядати сайт українською мовою?') %}
+{% set text = null %}
+{% set data = 'data-suggest-show="' ~ (suggest.show ? '1' : '0') ~ '" data-suggest-url="' ~ suggest.url|e('html_attr') ~ '"' %}
+{% set x_data = "ModalLangComponent" %}
+{% set buttons = {
+    "secondary": {
+        "text": pll__("Ні"),
+        "x_click": "decline()"
+    },
+    "primary": {
+        "text": pll__("Так"),
+        "x_click": "accept()"
+    }
+} %}

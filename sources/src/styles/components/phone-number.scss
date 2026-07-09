@@ -1,0 +1,16 @@
+@use '@styles/base/mixins' as *;
+
+.us-phone-number {
+  display: flex;
+  color: var(--unitshot-gray-main);
+  font-size: 14px;
+  @include font-ppneue-medium;
+
+  &__show-btn {
+    color: var(--unitshot-gray-labels);
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

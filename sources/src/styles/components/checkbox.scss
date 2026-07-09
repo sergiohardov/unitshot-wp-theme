@@ -1,0 +1,99 @@
+@use '@styles/base/mixins' as *;
+
+.us-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+
+  &__input {
+    appearance: none;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    border: 1.5px solid var(--unitshot-gray-darker);
+    border-radius: 4px;
+    background-color: var(--unitshot-white);
+    background-image: none;
+    background-size: 24px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    transition: color var(--unitshot-transition-speed) ease-in-out, background-color var(--unitshot-transition-speed) ease-in-out, border-color var(--unitshot-transition-speed) ease-in-out, box-shadow var(--unitshot-transition-speed) ease-in-out;
+    margin: 0;
+
+    @include media-md() {
+      width: 18px;
+      height: 18px;
+      background-size: 18px;
+      border-radius: 3px;
+      border-width: 1px;
+    }
+
+    /* Эффект нажатия */
+    &:active {
+      filter: brightness(90%);
+    }
+
+    /* Смена цвета границы при наведении */
+    &:hover:not(:disabled) {
+      border-color: var(--unitshot-accent-pink);
+    }
+
+    /* Иконка галочки при выборе чекбокса */
+    &:checked {
+      background-image: url('@images/icons/check.svg')
+    }
+
+    /* Иконка для неопределенного состояния */
+    &:indeterminate {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10h8'/%3e%3c/svg%3e");
+    }
+
+    /* Отключенный чекбокс */
+    &:disabled {
+      filter: none;
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    &:disabled ~ .us-checkbox__label {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  /* Стили метки чекбокса */
+  &__label {
+    cursor: pointer;
+    user-select: none;
+    color: var(--unitshot-gray-main);
+    font-size: 16px;
+    @include font-ppneue-medium;
+
+    @include media-md() {
+      font-size: 14px;
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

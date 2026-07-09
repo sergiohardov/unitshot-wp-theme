@@ -1,0 +1,28 @@
+{# TODO: сделать проверку на существование products, если пусто то не отрисовывать макет, затем в blocks/popular-products & blocks/category-showcase убрать условие if на отрисовку этого компонента #}
+{% extends '@layouts/slider.twig' %}
+
+{% set class = "us-slider-product-cards" %}
+{% set swiper_options = {
+    "loop": true,
+    "breakpoints": {
+        769: { "slidesPerView": 3 },
+        993: { "slidesPerView": 4 }
+    }
+} %}
+
+{% block slides %}
+    {% for product in products %}
+        <div class="swiper-slide">
+            {% include '@components/product-card.twig' with {
+                'tags': product.tags,
+                'image': product.image,
+                'title': product.title,
+                'brand': product.brand,
+                'category': product.category,
+                'price': product.price,
+                'add': product.add
+            } %}
+        </div>
+    {% endfor %}
+{% endblock %}
+

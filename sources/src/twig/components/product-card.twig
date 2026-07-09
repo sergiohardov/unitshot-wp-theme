@@ -1,0 +1,42 @@
+<div class="us-product-card {{ class }}">
+    {% if tags %}
+        <div class="us-product-card__tags">
+            {% for tag in tags %}
+                <span class="us-product-card__tags--{{ tag.status }}">{{ tag.text }}</span>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <a href="{{ title.link|default('#') }}" class="us-product-card__image">
+        {% include '@components/image.twig' with {
+            'class': 'us-product-card__image__img',
+            'image': image
+        } %}
+    </a>
+
+    <div class="us-product-card__info">
+        <div class="us-product-card__text">
+            {% if title.link and title.text %}
+                <a href="{{ title.link }}" class="us-product-card__title">{{ title.text }}</a>
+            {% endif %}
+        </div>
+
+        <div class="us-product-card__total">
+            <div class="us-product-card__price">
+                {% if price.old %}
+                    <span class="us-product-card__price--old">{{ price.old }}</span>
+                {% endif %}
+
+                {% if price.new %}
+                    <span class="us-product-card__price--new">{{ price.new }}</span>
+                {% endif %}
+            </div>
+
+            {% if add.is_variable %}
+                <a href="{{ add.url|default('#') }}" class="us-product-card__add-cart" aria-label="{{ pll__('Обрати варіацію') }}"></a>
+            {% else %}
+                <button type="button" class="us-product-card__add-cart" aria-label="{{ pll__('Додати в кошик') }}" x-data x-on:click="$store.cart.add({{ add.id }}, {}, 1)"></button>
+            {% endif %}
+        </div>
+    </div>
+</div>
